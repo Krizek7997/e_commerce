@@ -1,7 +1,8 @@
-package com.krizan.example.e_commerce.customer;
+package com.krizan.e_commerce.customer;
 
 import lombok.*;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Nullable
     private Integer id;
 
     @NonNull

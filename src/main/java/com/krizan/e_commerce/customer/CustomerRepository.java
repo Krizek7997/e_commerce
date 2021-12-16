@@ -1,4 +1,4 @@
-package com.krizan.example.e_commerce.customer;
+package com.krizan.e_commerce.customer;
 
 import org.springframework.data.repository.CrudRepository;
 
