@@ -2,5 +2,5 @@ package com.krizan.e_commerce.customer;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
 }

@@ -4,23 +4,21 @@ import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Nullable
-    private Integer id;
+    private Long id;
 
     @NonNull
     private String firstName;

@@ -20,12 +20,12 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity addNewCustomer(@RequestBody Customer customer) {
         customerRepository.save(customer);
-        Integer id = customer.getId();
+        Long id = customer.getId();
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateCustomer(@PathVariable("id") Integer id, @RequestBody Customer newCustomer) {
+    public ResponseEntity updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {
         if (customerRepository.existsById(id)) {
             Customer customer = customerRepository.findById(id).get();
             customer.setFirstName(newCustomer.getFirstName());
@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable("id") Integer id) {
+    public ResponseEntity deleteCustomer(@PathVariable("id") Long id) {
         if (customerRepository.existsById(id)) {
             customerRepository.deleteById(id);
             return ResponseEntity.ok().build();
@@ -60,7 +60,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCustomerById(@PathVariable("id") Integer id) {
+    public ResponseEntity getCustomerById(@PathVariable("id") Long id) {
         if (customerRepository.existsById(id)) {
             Optional<Customer> customer = customerRepository.findById(id);
             return new ResponseEntity<>(customer, HttpStatus.OK);
