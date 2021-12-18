@@ -25,10 +25,16 @@ public class CustomerController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateCustomer(@PathVariable("id") Integer id, @RequestBody Customer customer) {
+    public ResponseEntity updateCustomer(@PathVariable("id") Integer id, @RequestBody Customer newCustomer) {
         if (customerRepository.existsById(id)) {
-            //  TODO
-            //  Prepisuje mi to id pizdovina
+            Customer customer = customerRepository.findById(id).get();
+            customer.setFirstName(newCustomer.getFirstName());
+            customer.setSurname(newCustomer.getSurname());
+            customer.setEmail(newCustomer.getEmail());
+            customer.setPhoneNumber(newCustomer.getPhoneNumber());
+            customer.setAddress(newCustomer.getAddress());
+            customer.setPostalCode(newCustomer.getPostalCode());
+            customerRepository.save(customer);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
