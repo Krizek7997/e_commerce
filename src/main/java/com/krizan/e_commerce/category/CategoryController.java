@@ -1,6 +1,5 @@
 package com.krizan.e_commerce.category;
 
-import com.krizan.e_commerce.product.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
