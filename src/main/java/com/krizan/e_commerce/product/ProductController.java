@@ -34,7 +34,6 @@ public class ProductController {
             product.setUnitPrice(newProduct.getUnitPrice());
             product.setDiscount(newProduct.getDiscount());
             product.setDiscountAvailable(newProduct.getDiscountAvailable());
-            product.setInStock(newProduct.getInStock());
             product.setOnOrder(newProduct.getOnOrder());
             productRepository.save(product);
             return ResponseEntity.ok().build();

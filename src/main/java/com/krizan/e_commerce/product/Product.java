@@ -48,8 +48,5 @@ public class Product {
     private Boolean discountAvailable;
 
     @NonNull
-    private Integer inStock;
-
-    @NonNull
-    private Integer onOrder;
+    private Boolean onOrder;
 }
