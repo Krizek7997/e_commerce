@@ -33,7 +33,6 @@ public class ProductController {
             product.setSize(newProduct.getName());
             product.setUnitPrice(newProduct.getUnitPrice());
             product.setDiscount(newProduct.getDiscount());
-            product.setDiscountAvailable(newProduct.getDiscountAvailable());
             product.setOnOrder(newProduct.getOnOrder());
             productRepository.save(product);
             return ResponseEntity.ok().build();

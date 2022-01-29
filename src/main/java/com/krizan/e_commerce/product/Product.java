@@ -45,8 +45,5 @@ public class Product {
     private Double discount;
 
     @NonNull
-    private Boolean discountAvailable;
-
-    @NonNull
     private Boolean onOrder;
 }
