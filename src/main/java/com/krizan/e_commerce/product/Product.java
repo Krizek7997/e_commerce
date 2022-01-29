@@ -39,11 +39,15 @@ public class Product {
     private String size;
 
     @NonNull
-    private Double unitPrice;
+    private Boolean discountAvailable;
 
-    @Nullable
+    @NonNull
     private Double discount;
 
     @NonNull
+    private Double unitPrice;
+
+    @NonNull
     private Boolean onOrder;
+
 }

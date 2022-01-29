@@ -31,8 +31,9 @@ public class ProductController {
             product.setDescription(newProduct.getDescription());
             product.setColor(newProduct.getName());
             product.setSize(newProduct.getName());
-            product.setUnitPrice(newProduct.getUnitPrice());
             product.setDiscount(newProduct.getDiscount());
+            product.setDiscountAvailable(newProduct.getDiscountAvailable());
+            product.setUnitPrice(newProduct.getUnitPrice());
             product.setOnOrder(newProduct.getOnOrder());
             productRepository.save(product);
             return ResponseEntity.ok().build();
