@@ -15,10 +15,15 @@ public class ProductController {
 
     public ProductController(ProductRepository productRepository) {this.productRepository = productRepository; }
 
+    @PostMapping
     public ResponseEntity addNewProduct(@RequestBody Product product) {
-        productRepository.save(product);
-        Long id = product.getId();
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        product.setFinalUnitPrice(product.calcFinalUnitPrice());
+        if (product.getDiscount() >= 0 && product.getDiscount() <= 100) {
+            productRepository.save(product);
+            Long id = product.getId();
+            return new ResponseEntity<>(id, HttpStatus.OK);
+        } else return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
+                .body("Parameter 'Discount' is out of bounds");
     }
 
     @PatchMapping("/{id}")
@@ -31,9 +36,15 @@ public class ProductController {
             product.setDescription(newProduct.getDescription());
             product.setColor(newProduct.getName());
             product.setSize(newProduct.getName());
-            product.setDiscount(newProduct.getDiscount());
+
+            if (newProduct.getDiscount() >= 0 && newProduct.getDiscount() <= 100) {
+                product.setDiscount(newProduct.getDiscount());
+            } else return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Parameter 'Discount' is out of bounds");
+
             product.setDiscountAvailable(newProduct.getDiscountAvailable());
             product.setUnitPrice(newProduct.getUnitPrice());
+            product.setFinalUnitPrice(newProduct.calcFinalUnitPrice());
             product.setOnOrder(newProduct.getOnOrder());
             productRepository.save(product);
             return ResponseEntity.ok().build();

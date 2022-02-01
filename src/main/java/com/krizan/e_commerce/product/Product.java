@@ -39,15 +39,22 @@ public class Product {
     private String size;
 
     @NonNull
+    private Double unitPrice;
+
+    @NonNull
     private Boolean discountAvailable;
 
     @NonNull
-    private Double discount;
+    private Integer discount;
 
-    @NonNull
-    private Double unitPrice;
+    @Nullable
+    private Double finalUnitPrice;
 
     @NonNull
     private Boolean onOrder;
 
+    public Double calcFinalUnitPrice() {
+        Double discountInDecimal = Double.valueOf(discount) / 100;
+        return unitPrice - unitPrice * discountInDecimal;
+    }
 }
