@@ -1,6 +1,7 @@
 package com.krizan.e_commerce.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.krizan.e_commerce.customer.Customer;
 import com.krizan.e_commerce.product.Product;
 import lombok.*;
 import org.springframework.lang.NonNull;
@@ -20,13 +21,18 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Nullable
     private Long id;
 
-    @OneToMany
+    @NonNull
+    @ManyToOne()
     @ToString.Exclude
-    private List<Product> products = new ArrayList<>();
+    private Customer customer;
+
+    @OneToMany(mappedBy = "")
+    @ToString.Exclude
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Nullable
@@ -36,20 +42,20 @@ public class Order {
     private Integer numberOfProducts;
 
     @Nullable
-    private Double totalPrice;
+    private Double totalOrderPrice;
 
     @NonNull
     private String status;
 
-    public Double calcTotalPrice() {
+    public Double calcTotalOrderPrice() {
         Double total = 0D;
-        for (Product p : products)
-            total += p.getFinalUnitPrice();
+        List<OrderProduct> orderProducts = getOrderProducts();
+        for (OrderProduct oP : orderProducts) total += oP.getFinalUnitPrice();
         return total;
     }
 
     public Integer calcNumberOfProducts() {
-        return products.size();
+        return orderProducts.size();
     }
 
 }

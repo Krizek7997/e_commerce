@@ -28,7 +28,7 @@ public class VendorController {
     public ResponseEntity updateVendor(@PathVariable("id") Long id, @RequestBody Vendor newVendor) {
         if (vendorRepository.existsById(id)) {
             Vendor vendor = vendorRepository.findById(id).get();
-            vendor.setCompanyName(newVendor.getCompanyName());
+            vendor.setName(newVendor.getName());
             vendor.setCountry(newVendor.getCountry());
             vendor.setAddress(newVendor.getAddress());
             vendor.setPostalCode(newVendor.getPostalCode());

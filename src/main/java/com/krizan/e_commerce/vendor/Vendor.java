@@ -21,7 +21,7 @@ public class Vendor {
     private Long id;
 
     @NonNull
-    private String companyName;
+    private String name;
 
     @NonNull
     private String country;
