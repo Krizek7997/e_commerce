@@ -1,6 +1,5 @@
 package com.krizan.e_commerce.product;
 
-import com.krizan.e_commerce.order.Order;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table
+@Table(name = "products")
 @Entity
 public class Product {
 
@@ -21,7 +20,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Nullable
-    private Long id;
+    private Long productId;
 
     @NonNull
     private Long vendorId;
@@ -55,10 +54,6 @@ public class Product {
 
     @NonNull
     private Boolean onOrder;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     public Double calcFinalUnitPrice() {
         Double discountInDecimal = Double.valueOf(discount) / 100;

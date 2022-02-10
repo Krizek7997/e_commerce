@@ -11,14 +11,14 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table
+@Table(name = "vendors")
 @Entity
 public class Vendor {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Nullable
-    private Long id;
+    private Long vendorId;
 
     @NonNull
     private String name;

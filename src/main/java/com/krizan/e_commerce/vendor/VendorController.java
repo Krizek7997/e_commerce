@@ -20,7 +20,7 @@ public class VendorController {
     @PostMapping
     public ResponseEntity addNewVendor(@RequestBody Vendor vendor) {
         vendorRepository.save(vendor);
-        Long id = vendor.getId();
+        Long id = vendor.getVendorId();
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

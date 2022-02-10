@@ -20,7 +20,7 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity addNewCustomer(@RequestBody Customer customer) {
         customerRepository.save(customer);
-        Long id = customer.getId();
+        Long id = customer.getCustomerId();
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

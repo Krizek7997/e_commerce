@@ -18,7 +18,7 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity addNewCategory(@RequestBody Category category) {
         categoryRepository.save(category);
-        Long id = category.getId();
+        Long id = category.getCategoryId();
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

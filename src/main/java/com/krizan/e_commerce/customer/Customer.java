@@ -1,24 +1,27 @@
 package com.krizan.e_commerce.customer;
 
+import com.krizan.e_commerce.order.Order;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table
+@Table(name = "customers")
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Nullable
-    private Long id;
+    private Long customerId;
 
     @NonNull
     private String firstName;
@@ -37,5 +40,10 @@ public class Customer {
 
     @NonNull
     private Integer postalCode;
+
+    @Nullable
+    @OneToMany(mappedBy = "customer")
+    @ToString.Exclude
+    private List<Order> orders = new ArrayList<>();
 
 }

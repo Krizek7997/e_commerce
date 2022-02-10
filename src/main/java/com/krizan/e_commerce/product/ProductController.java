@@ -20,7 +20,7 @@ public class ProductController {
         product.setFinalUnitPrice(product.calcFinalUnitPrice());
         if (product.getDiscount() >= 0 && product.getDiscount() <= 100) {
             productRepository.save(product);
-            Long id = product.getId();
+            Long id = product.getProductId();
             return new ResponseEntity<>(id, HttpStatus.OK);
         } else return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
                 .body("Parameter 'Discount' is out of bounds");

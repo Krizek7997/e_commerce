@@ -1,30 +1,40 @@
 package com.krizan.e_commerce.order;
 
+import com.krizan.e_commerce.product.Product;
 import lombok.*;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table
+@Table(name = "order_products")
 @Entity
 public class OrderProduct {
 
-    @EmbeddedId
-    @Nullable
-    private OrderProductPK pk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long orderProductId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @ToString.Exclude
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @ToString.Exclude
+    private Product product;
 
     @NonNull
     private Integer quantity;
 
     public Double getTotalPrice() {
-        return getProduct().getPrice() * getQuantity();
+        if (getProduct().getFinalUnitPrice() != null) {
+            return getProduct().getFinalUnitPrice() * getQuantity();
+        } else throw new NullPointerException();
     }
-
 }
