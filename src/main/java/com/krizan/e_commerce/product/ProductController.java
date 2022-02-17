@@ -22,16 +22,18 @@ public class ProductController {
             productRepository.save(product);
             Long id = product.getProductId();
             return new ResponseEntity<>(id, HttpStatus.OK);
-        } else return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                .body("Parameter 'Discount' is out of bounds");
+        } else {
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
+                    .body("Parameter 'Discount' is out of bounds.");
+        }
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) {
         if (productRepository.existsById(id)) {
             Product product = productRepository.findById(id).get();
-            product.setVendorId(newProduct.getVendorId());
-            product.setCategoryId(newProduct.getCategoryId());
+            product.setVendor(newProduct.getVendor());
+            product.setCategory(newProduct.getCategory());
             product.setName(newProduct.getName());
             product.setDescription(newProduct.getDescription());
             product.setColor(newProduct.getName());
@@ -39,14 +41,17 @@ public class ProductController {
 
             if (newProduct.getDiscount() >= 0 && newProduct.getDiscount() <= 100) {
                 product.setDiscount(newProduct.getDiscount());
-            } else return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Parameter 'Discount' is out of bounds");
+            } else {
+                return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
+                        .body("Parameter 'Discount' is out of bounds.");
+            }
 
             product.setDiscountAvailable(newProduct.getDiscountAvailable());
             product.setUnitPrice(newProduct.getUnitPrice());
             product.setFinalUnitPrice(newProduct.calcFinalUnitPrice());
             product.setOnOrder(newProduct.getOnOrder());
             productRepository.save(product);
+
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
