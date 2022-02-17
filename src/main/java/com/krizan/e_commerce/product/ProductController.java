@@ -16,20 +16,20 @@ public class ProductController {
     public ProductController(ProductRepository productRepository) {this.productRepository = productRepository; }
 
     @PostMapping
-    public ResponseEntity addNewProduct(@RequestBody Product product) {
+    public ResponseEntity<String> addNewProduct(@RequestBody Product product) {
         product.setFinalUnitPrice(product.calcFinalUnitPrice());
-        if (product.getDiscount() >= 0 && product.getDiscount() <= 100) {
+        if (product.getDiscount() >= 0 && product.getDiscount() <= 100 && product.getQuantity() > 0) {
             productRepository.save(product);
             Long id = product.getProductId();
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            return new ResponseEntity<>("Product has been added with id: " + id + ".", HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Parameter 'Discount' is out of bounds.");
+            return new ResponseEntity<>("Parameter 'Discount' is out of bounds.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) {
+    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) {
         if (productRepository.existsById(id)) {
             Product product = productRepository.findById(id).get();
             product.setVendor(newProduct.getVendor());
@@ -38,51 +38,58 @@ public class ProductController {
             product.setDescription(newProduct.getDescription());
             product.setColor(newProduct.getName());
             product.setSize(newProduct.getName());
-
             if (newProduct.getDiscount() >= 0 && newProduct.getDiscount() <= 100) {
                 product.setDiscount(newProduct.getDiscount());
             } else {
-                return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                        .body("Parameter 'Discount' is out of bounds.");
+                return new ResponseEntity<>("Parameter 'Discount' is out of bounds.",
+                        HttpStatus.PRECONDITION_FAILED);
             }
-
             product.setDiscountAvailable(newProduct.getDiscountAvailable());
             product.setUnitPrice(newProduct.getUnitPrice());
             product.setFinalUnitPrice(newProduct.calcFinalUnitPrice());
             product.setOnOrder(newProduct.getOnOrder());
+            if (newProduct.getQuantity() > 0) {
+                product.setQuantity(newProduct.getQuantity());
+            } else {
+                return new ResponseEntity<>("Parameter 'Quantity' is out of bounds.",
+                        HttpStatus.PRECONDITION_FAILED);
+            }
             productRepository.save(product);
 
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Product with id: " + id + " has been updated.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Product with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Product with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Product with id: " + id + " has been deleted.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Product with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Product with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @GetMapping
-    public ResponseEntity getAllProducts() {
+    public ResponseEntity<String> getAllProducts() {
         Iterable<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        return new ResponseEntity<>(products.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> getProductById(@PathVariable("id") Long id) {
         if (productRepository.existsById(id)) {
             Optional<Product> product = productRepository.findById(id);
-            return new ResponseEntity<>(product, HttpStatus.OK);
+            return new ResponseEntity<>(product.toString(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Product with id: " + id + " doesn't exist.",
+                    HttpStatus.NOT_FOUND);
         }
     }
 }

@@ -16,49 +16,52 @@ public class CategoryController {
     public CategoryController(CategoryRepository categoryRepository) { this.categoryRepository = categoryRepository;}
 
     @PostMapping
-    public ResponseEntity addNewCategory(@RequestBody Category category) {
+    public ResponseEntity<String> addNewCategory(@RequestBody Category category) {
         categoryRepository.save(category);
         Long id = category.getCategoryId();
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>("Category has been added with id: " + id + ".", HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateCategory(@PathVariable("id") Long id, @RequestBody Category newCategory) {
+    public ResponseEntity<String> updateCategory(@PathVariable("id") Long id, @RequestBody Category newCategory) {
         if (categoryRepository.existsById(id)) {
             Category category = categoryRepository.findById(id).get();
             category.setName(newCategory.getName());
             categoryRepository.save(category);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Category with id: " + id + " has been updated.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Category with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Category with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Category with id: " + id + "has been deleted.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Category with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Category with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @GetMapping
-    public ResponseEntity getAllCategories() {
+    public ResponseEntity<String> getAllCategories() {
         Iterable<Category> categories = categoryRepository.findAll();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+        return new ResponseEntity<>(categories.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCategoryById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> getCategoryById(@PathVariable("id") Long id) {
         if (categoryRepository.existsById(id)) {
             Optional<Category> category = categoryRepository.findById(id);
-            return new ResponseEntity<>(category, HttpStatus.OK);
+            return new ResponseEntity<>(category.toString(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Category with id: " + id + " doesn't exist.",
+                    HttpStatus.NOT_FOUND);
         }
     }
 }

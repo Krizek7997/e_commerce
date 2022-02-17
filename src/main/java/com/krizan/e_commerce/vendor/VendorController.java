@@ -18,14 +18,14 @@ public class VendorController {
     }
 
     @PostMapping
-    public ResponseEntity addNewVendor(@RequestBody Vendor vendor) {
+    public ResponseEntity<String> addNewVendor(@RequestBody Vendor vendor) {
         vendorRepository.save(vendor);
         Long id = vendor.getVendorId();
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>("Vendor has been added with id: " + id + ".", HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateVendor(@PathVariable("id") Long id, @RequestBody Vendor newVendor) {
+    public ResponseEntity<String> updateVendor(@PathVariable("id") Long id, @RequestBody Vendor newVendor) {
         if (vendorRepository.existsById(id)) {
             Vendor vendor = vendorRepository.findById(id).get();
             vendor.setName(newVendor.getName());
@@ -36,37 +36,40 @@ public class VendorController {
             vendor.setPhoneNumber(newVendor.getPhoneNumber());
             vendor.setUrl(newVendor.getUrl());
             vendorRepository.save(vendor);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Vendor with id: " + id + " has been updated.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Vendor with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Vendor with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteVendor(@PathVariable Long id) {
+    public ResponseEntity<String> deleteVendor(@PathVariable Long id) {
         if (vendorRepository.existsById(id)) {
             vendorRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Vendor with id: " + id + " has been deleted.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Vendor with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Vendor with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @GetMapping
-    public ResponseEntity getAllVendors() {
+    public ResponseEntity<String> getAllVendors() {
         Iterable<Vendor> vendors = vendorRepository.findAll();
-        return new ResponseEntity<>(vendors, HttpStatus.OK);
+        return new ResponseEntity<>(vendors.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getVendorById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> getVendorById(@PathVariable("id") Long id) {
         if (vendorRepository.existsById(id)) {
             Optional<Vendor> vendor = vendorRepository.findById(id);
-            return new ResponseEntity<>(vendor, HttpStatus.OK);
+            return new ResponseEntity<>(vendor.toString(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Vendor with id: " + id + " doesn't exist.",
+                    HttpStatus.NOT_FOUND);
         }
     }
 }

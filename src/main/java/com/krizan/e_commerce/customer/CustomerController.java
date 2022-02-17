@@ -18,14 +18,14 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity addNewCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<String> addNewCustomer(@RequestBody Customer customer) {
         customerRepository.save(customer);
         Long id = customer.getCustomerId();
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>("Customer has been added with id: " + id + ".", HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {
+    public ResponseEntity<String> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {
         if (customerRepository.existsById(id)) {
             Customer customer = customerRepository.findById(id).get();
             customer.setFirstName(newCustomer.getFirstName());
@@ -35,7 +35,8 @@ public class CustomerController {
             customer.setAddress(newCustomer.getAddress());
             customer.setPostalCode(newCustomer.getPostalCode());
             customerRepository.save(customer);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Customer with id: " + id + " has been updated.",
+                    HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
                     .body("Customer with id: " + id + " doesn't exist.");
@@ -43,29 +44,31 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteCustomer(@PathVariable("id") Long id) {
         if (customerRepository.existsById(id)) {
             customerRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<>("Customer with id: " + id + " has been deleted.",
+                    HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
-                    .body("Customer with id: " + id + " doesn't exist.");
+            return new ResponseEntity<>("Customer with id: " + id + " doesn't exist.",
+                    HttpStatus.PRECONDITION_FAILED);
         }
     }
 
     @GetMapping
-    public ResponseEntity getAllCustomers() {
+    public ResponseEntity<String> getAllCustomers() {
         Iterable<Customer> customers = customerRepository.findAll();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return new ResponseEntity<>(customers.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCustomerById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> getCustomerById(@PathVariable("id") Long id) {
         if (customerRepository.existsById(id)) {
             Optional<Customer> customer = customerRepository.findById(id);
-            return new ResponseEntity<>(customer, HttpStatus.OK);
+            return new ResponseEntity<>(customer.toString(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Customer with id: " + id + " doesn't exist.",
+                    HttpStatus.NOT_FOUND);
         }
     }
 }
