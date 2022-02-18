@@ -57,16 +57,16 @@ public class VendorController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllVendors() {
+    public ResponseEntity<Object> getAllVendors() {
         Iterable<Vendor> vendors = vendorRepository.findAll();
-        return new ResponseEntity<>(vendors.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(vendors, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getVendorById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getVendorById(@PathVariable("id") Long id) {
         if (vendorRepository.existsById(id)) {
             Optional<Vendor> vendor = vendorRepository.findById(id);
-            return new ResponseEntity<>(vendor.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(vendor, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Vendor with id: " + id + " doesn't exist.",
                     HttpStatus.NOT_FOUND);

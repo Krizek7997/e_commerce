@@ -77,16 +77,16 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllProducts() {
+    public ResponseEntity<Object> getAllProducts() {
         Iterable<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getProductById(@PathVariable("id") Long id) {
         if (productRepository.existsById(id)) {
             Optional<Product> product = productRepository.findById(id);
-            return new ResponseEntity<>(product.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(product, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Product with id: " + id + " doesn't exist.",
                     HttpStatus.NOT_FOUND);

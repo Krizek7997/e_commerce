@@ -56,16 +56,16 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllCustomers() {
+    public ResponseEntity<Object> getAllCustomers() {
         Iterable<Customer> customers = customerRepository.findAll();
-        return new ResponseEntity<>(customers.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getCustomerById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getCustomerById(@PathVariable("id") Long id) {
         if (customerRepository.existsById(id)) {
             Optional<Customer> customer = customerRepository.findById(id);
-            return new ResponseEntity<>(customer.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(customer, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Customer with id: " + id + " doesn't exist.",
                     HttpStatus.NOT_FOUND);

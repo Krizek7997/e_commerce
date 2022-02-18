@@ -49,16 +49,16 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllCategories() {
+    public ResponseEntity<Object> getAllCategories() {
         Iterable<Category> categories = categoryRepository.findAll();
-        return new ResponseEntity<>(categories.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getCategoryById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> getCategoryById(@PathVariable("id") Long id) {
         if (categoryRepository.existsById(id)) {
             Optional<Category> category = categoryRepository.findById(id);
-            return new ResponseEntity<>(category.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(category, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Category with id: " + id + " doesn't exist.",
                     HttpStatus.NOT_FOUND);
