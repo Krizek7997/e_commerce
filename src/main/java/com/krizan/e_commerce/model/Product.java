@@ -1,7 +1,5 @@
-package com.krizan.e_commerce.product;
+package com.krizan.e_commerce.model;
 
-import com.krizan.e_commerce.category.Category;
-import com.krizan.e_commerce.vendor.Vendor;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

@@ -1,5 +1,7 @@
-package com.krizan.e_commerce.product;
+package com.krizan.e_commerce.controller;
 
+import com.krizan.e_commerce.model.Product;
+import com.krizan.e_commerce.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductRepository productRepository;

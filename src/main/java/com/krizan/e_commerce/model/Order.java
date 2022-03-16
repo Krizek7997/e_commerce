@@ -1,7 +1,6 @@
-package com.krizan.e_commerce.order;
+package com.krizan.e_commerce.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.krizan.e_commerce.customer.Customer;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

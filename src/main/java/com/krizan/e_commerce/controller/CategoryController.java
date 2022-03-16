@@ -1,5 +1,7 @@
-package com.krizan.e_commerce.category;
+package com.krizan.e_commerce.controller;
 
+import com.krizan.e_commerce.repository.CategoryRepository;
+import com.krizan.e_commerce.model.Category;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;

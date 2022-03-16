@@ -1,5 +1,7 @@
-package com.krizan.e_commerce.vendor;
+package com.krizan.e_commerce.controller;
 
+import com.krizan.e_commerce.model.Vendor;
+import com.krizan.e_commerce.repository.VendorRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/vendor")
+@RequestMapping("/api/vendor")
 public class VendorController {
 
     private final VendorRepository vendorRepository;

@@ -1,6 +1,5 @@
-package com.krizan.e_commerce.order;
+package com.krizan.e_commerce.model;
 
-import com.krizan.e_commerce.product.Product;
 import lombok.*;
 import org.springframework.lang.NonNull;
 

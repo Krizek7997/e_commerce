@@ -1,5 +1,7 @@
-package com.krizan.e_commerce.customer;
+package com.krizan.e_commerce.controller;
 
+import com.krizan.e_commerce.repository.CustomerRepository;
+import com.krizan.e_commerce.model.Customer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final CustomerRepository customerRepository;

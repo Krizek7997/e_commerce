@@ -1,4 +1,4 @@
-package com.krizan.e_commerce.vendor;
+package com.krizan.e_commerce.model;
 
 import lombok.*;
 import org.springframework.lang.NonNull;
