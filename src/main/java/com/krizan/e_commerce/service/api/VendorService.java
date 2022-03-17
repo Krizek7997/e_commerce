@@ -7,7 +7,7 @@ public interface VendorService {
 
     ResponseEntity<String> addVendor(Vendor vendor);
     ResponseEntity<String> deleteVendor(Long vendorId);
-    ResponseEntity<Vendor> updateVendor(Long vendorId, Vendor vendor);
+    ResponseEntity<Vendor> updateVendor(Long vendorId, Vendor newVendor);
     ResponseEntity<Iterable<Vendor>> getAllVendors();
     ResponseEntity<Vendor> getVendorById(Long vendorId);
 

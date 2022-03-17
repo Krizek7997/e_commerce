@@ -7,7 +7,7 @@ public interface OrderService {
 
     ResponseEntity<String> addOrder(Order order);
     ResponseEntity<String> deleteOrder(Long orderId);
-    ResponseEntity<Order> updateOrder(Long orderId, Order order);
+    ResponseEntity<Order> updateOrder(Long orderId, Order newOrder);
     ResponseEntity<Iterable<Order>> getAllOrders();
     ResponseEntity<Order> getOrderById(Long orderId);
 

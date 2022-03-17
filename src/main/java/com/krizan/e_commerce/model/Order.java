@@ -5,7 +5,9 @@ import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,21 +38,21 @@ public class Order {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Nullable
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 
     @Nullable
     private Integer numberOfProducts;
 
     @Nullable
-    private Double totalOrderPrice;
+    private BigDecimal totalOrderPrice;
 
     @NonNull
     private String status;
 
-    public Double calcTotalOrderPrice() {
-        Double total = 0D;
+    public BigDecimal calcTotalOrderPrice() {
+        BigDecimal total = BigDecimal.ZERO;
         List<OrderProduct> orderProducts = getOrderProducts();
-        for (OrderProduct oP : orderProducts) total += oP.getTotalPrice();
+        for (OrderProduct oP : orderProducts) total = total.add(oP.getTotalPrice());
         return total;
     }
 

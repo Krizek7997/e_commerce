@@ -5,6 +5,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Setter
@@ -43,7 +45,7 @@ public class Product {
     private String size;
 
     @NonNull
-    private Double unitPrice;
+    private BigDecimal unitPrice;
 
     @NonNull
     private Boolean discountAvailable;
@@ -52,7 +54,7 @@ public class Product {
     private Integer discount;
 
     @Nullable
-    private Double finalUnitPrice;
+    private BigDecimal finalUnitPrice;
 
     @NonNull
     private Boolean onOrder;
@@ -60,8 +62,9 @@ public class Product {
     @NonNull
     private Integer quantity;
 
-    public Double calcFinalUnitPrice() {
-        Double discountInDecimal = Double.valueOf(discount) / 100;
-        return unitPrice - unitPrice * discountInDecimal;
+    public BigDecimal calcFinalUnitPrice() {
+        BigDecimal discountInBigDecimal = BigDecimal.valueOf(getDiscount())
+                .divide(BigDecimal.valueOf(100), RoundingMode.UNNECESSARY);
+        return unitPrice.subtract(unitPrice.multiply(discountInBigDecimal));
     }
 }

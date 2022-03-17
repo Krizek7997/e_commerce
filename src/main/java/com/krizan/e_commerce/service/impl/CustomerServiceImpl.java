@@ -5,7 +5,9 @@ import com.krizan.e_commerce.repository.CustomerRepository;
 import com.krizan.e_commerce.service.api.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -27,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
         customerRepository.deleteById(customerId);
         return new ResponseEntity<>("Customer with id: " + customerId
-                + "has been deleted.", HttpStatus.OK);
+                + " has been deleted.", HttpStatus.OK);
     }
 
     @Override
@@ -40,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
         oldCustomer.setPhoneNumber(newCustomer.getPhoneNumber());
         oldCustomer.setAddress(newCustomer.getAddress());
         oldCustomer.setPostalCode(newCustomer.getPostalCode());
+
         customerRepository.save(oldCustomer);
         return new ResponseEntity<>(oldCustomer, HttpStatus.OK);
     }

@@ -5,7 +5,9 @@ import com.krizan.e_commerce.repository.CategoryRepository;
 import com.krizan.e_commerce.service.api.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -27,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new IllegalStateException("Category with id: " + categoryId + " does not exist."));
         categoryRepository.deleteById(categoryId);
         return new ResponseEntity<>("Category with id: " + categoryId
-                + "has been deleted.", HttpStatus.OK);
+                + " has been deleted.", HttpStatus.OK);
     }
 
     @Override
@@ -35,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category oldCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalStateException("Category with id: " + categoryId + " does not exist."));
         oldCategory.setName(newCategory.getName());
+
         categoryRepository.save(oldCategory);
         return new ResponseEntity<>(oldCategory, HttpStatus.OK);
     }
