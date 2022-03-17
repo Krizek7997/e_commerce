@@ -3,6 +3,7 @@ package com.krizan.e_commerce.service.impl;
 import com.krizan.e_commerce.model.Customer;
 import com.krizan.e_commerce.repository.CustomerRepository;
 import com.krizan.e_commerce.service.api.CustomerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -14,27 +15,45 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseEntity<String> addCustomer() {
-        return null;
+    public ResponseEntity<String> addCustomer(Customer customer) {
+        customerRepository.save(customer);
+        Long id = customer.getCustomerId();
+        return new ResponseEntity<>("Customer has been created with id: " + id + ".", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> deleteCustomer(Long CustomerId) {
-        return null;
+    public ResponseEntity<String> deleteCustomer(Long customerId) {
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
+        customerRepository.deleteById(customerId);
+        return new ResponseEntity<>("Customer with id: " + customerId
+                + "has been deleted.", HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Customer> updateCustomer(Long CustomerId, Customer customer) {
-        return null;
+    public ResponseEntity<Customer> updateCustomer(Long customerId, Customer newCustomer) {
+        Customer oldCustomer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
+        oldCustomer.setFirstName(newCustomer.getFirstName());
+        oldCustomer.setSurname(newCustomer.getSurname());
+        oldCustomer.setEmail(newCustomer.getEmail());
+        oldCustomer.setPhoneNumber(newCustomer.getPhoneNumber());
+        oldCustomer.setAddress(newCustomer.getAddress());
+        oldCustomer.setPostalCode(newCustomer.getPostalCode());
+        customerRepository.save(oldCustomer);
+        return new ResponseEntity<>(oldCustomer, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Iterable<Customer>> getAllCustomers() {
-        return null;
+        Iterable<Customer> customers = customerRepository.findAll();
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Customer> getCustomerById() {
-        return null;
+    public ResponseEntity<Customer> getCustomerById(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 }

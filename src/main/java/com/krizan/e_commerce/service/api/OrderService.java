@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface OrderService {
 
-    ResponseEntity<String> addOrder();
-    ResponseEntity<String> deleteOrder(Long OrderId);
-    ResponseEntity<Order> updateOrder(Long OrderId, Order order);
+    ResponseEntity<String> addOrder(Order order);
+    ResponseEntity<String> deleteOrder(Long orderId);
+    ResponseEntity<Order> updateOrder(Long orderId, Order order);
     ResponseEntity<Iterable<Order>> getAllOrders();
-    ResponseEntity<Order> getOrderById();
+    ResponseEntity<Order> getOrderById(Long orderId);
 
 }

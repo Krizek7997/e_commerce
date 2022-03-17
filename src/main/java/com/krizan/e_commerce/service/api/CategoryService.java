@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface CategoryService {
 
-    ResponseEntity<String> addCategory();
-    ResponseEntity<String> deleteCategory(Long CategoryId);
-    ResponseEntity<Category> updateCategory(Long CategoryId, Category category);
+    ResponseEntity<String> addCategory(Category category);
+    ResponseEntity<String> deleteCategory(Long categoryId);
+    ResponseEntity<Category> updateCategory(Long categoryId, Category newCategory);
     ResponseEntity<Iterable<Category>> getAllCategories();
-    ResponseEntity<Category> getCategoryById();
+    ResponseEntity<Category> getCategoryById(Long categoryId);
 
 }

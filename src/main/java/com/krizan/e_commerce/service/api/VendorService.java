@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface VendorService {
 
-    ResponseEntity<String> addVendor();
-    ResponseEntity<String> deleteVendor(Long VendorId);
-    ResponseEntity<Vendor> updateVendor(Long VendorId, Vendor vendor);
+    ResponseEntity<String> addVendor(Vendor vendor);
+    ResponseEntity<String> deleteVendor(Long vendorId);
+    ResponseEntity<Vendor> updateVendor(Long vendorId, Vendor vendor);
     ResponseEntity<Iterable<Vendor>> getAllVendors();
-    ResponseEntity<Vendor> getVendorById();
+    ResponseEntity<Vendor> getVendorById(Long vendorId);
 
 }

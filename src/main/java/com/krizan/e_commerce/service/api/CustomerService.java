@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface CustomerService {
 
-    ResponseEntity<String> addCustomer();
-    ResponseEntity<String> deleteCustomer(Long CustomerId);
-    ResponseEntity<Customer> updateCustomer(Long CustomerId, Customer customer);
+    ResponseEntity<String> addCustomer(Customer customer);
+    ResponseEntity<String> deleteCustomer(Long customerId);
+    ResponseEntity<Customer> updateCustomer(Long customerId, Customer newCustomer);
     ResponseEntity<Iterable<Customer>> getAllCustomers();
-    ResponseEntity<Customer> getCustomerById();
+    ResponseEntity<Customer> getCustomerById(Long customerId);
 
 }

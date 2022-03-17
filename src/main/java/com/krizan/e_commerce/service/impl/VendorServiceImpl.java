@@ -14,7 +14,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public ResponseEntity<String> addVendor() {
+    public ResponseEntity<String> addVendor(Vendor vendor) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public ResponseEntity<Vendor> getVendorById() {
+    public ResponseEntity<Vendor> getVendorById(Long vendorId) {
         return null;
     }
 }

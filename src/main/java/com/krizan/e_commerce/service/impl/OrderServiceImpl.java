@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<String> addOrder() {
+    public ResponseEntity<String> addOrder(Order order) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<Order> getOrderById() {
+    public ResponseEntity<Order> getOrderById(Long orderId) {
         return null;
     }
 }

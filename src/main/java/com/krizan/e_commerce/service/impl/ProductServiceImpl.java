@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<String> addProduct() {
+    public ResponseEntity<String> addProduct(Product product) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> getProductById() {
+    public ResponseEntity<Product> getProductById(Long productId) {
         return null;
     }
 }

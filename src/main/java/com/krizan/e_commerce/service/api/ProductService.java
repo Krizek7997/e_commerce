@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
 
-    ResponseEntity<String> addProduct();
-    ResponseEntity<String> deleteProduct(Long ProductId);
-    ResponseEntity<Product> updateProduct(Long ProductId, Product Product);
+    ResponseEntity<String> addProduct(Product product);
+    ResponseEntity<String> deleteProduct(Long productId);
+    ResponseEntity<Product> updateProduct(Long productId, Product product);
     ResponseEntity<Iterable<Product>> getAllProducts();
-    ResponseEntity<Product> getProductById();
+    ResponseEntity<Product> getProductById(Long productId);
 
 }
