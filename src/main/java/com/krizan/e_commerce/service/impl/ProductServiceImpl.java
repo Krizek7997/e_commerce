@@ -59,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.setDiscountAvailable(newProduct.getDiscountAvailable());
         oldProduct.setDiscount(newProduct.getDiscount());
         oldProduct.setFinalUnitPrice(newProduct.getFinalUnitPrice());
-        oldProduct.setOnOrder(newProduct.getOnOrder());
         oldProduct.setQuantity(newProduct.getQuantity());
 
         productRepository.save(oldProduct);

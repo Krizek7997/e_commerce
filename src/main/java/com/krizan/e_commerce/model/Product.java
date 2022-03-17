@@ -3,7 +3,6 @@ package com.krizan.e_commerce.model;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -58,9 +57,6 @@ public class Product {
 
     @Nullable
     private BigDecimal finalUnitPrice;
-
-    @NonNull
-    private Boolean onOrder;
 
     @NonNull
     private Integer quantity;

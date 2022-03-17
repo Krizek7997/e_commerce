@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,5 +41,10 @@ public class Vendor {
 
     @Nullable
     private String url;
+
+    @OneToMany(mappedBy = "vendor")
+    @Nullable
+    @ToString.Exclude
+    private List<Product> productList;
 
 }
