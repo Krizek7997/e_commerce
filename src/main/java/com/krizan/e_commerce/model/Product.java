@@ -27,6 +27,9 @@ public class Product {
     @NonNull
     private Vendor vendor;
 
+    @NonNull
+    private Gender gender;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @NonNull

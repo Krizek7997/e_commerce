@@ -2,6 +2,7 @@ package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.model.Vendor;
 import com.krizan.e_commerce.service.api.VendorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,28 @@ public class VendorController {
     }
 
     @PostMapping
-    public void addVendor(@RequestBody Vendor vendor) {}
+    public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
+        return vendorService.addVendor(vendor);
+    }
 
     @PatchMapping("/{id}")
-    public void updateVendor(@PathVariable("id") Long id, @RequestBody Vendor newVendor) {}
+    public ResponseEntity<Vendor> updateVendor(@PathVariable("id") Long id,
+                                               @RequestBody Vendor newVendor) {
+        return vendorService.updateVendor(id, newVendor);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteVendor(@PathVariable Long id) {}
+    public ResponseEntity<String> deleteVendor(@PathVariable Long id) {
+        return vendorService.deleteVendor(id);
+    }
 
     @GetMapping
-    public void getAllVendors() {}
+    public ResponseEntity<Iterable<Vendor>> getAllVendors() {
+        return vendorService.getAllVendors();
+    }
 
     @GetMapping("/{id}")
-    public void getVendorById(@PathVariable("id") Long id) {}
+    public ResponseEntity<Vendor> getVendorById(@PathVariable("id") Long id) {
+        return vendorService.getVendorById(id);
+    }
 }

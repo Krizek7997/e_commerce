@@ -1,6 +1,7 @@
 package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.model.Order;
+import com.krizan.e_commerce.model.OrderStatus;
 import com.krizan.e_commerce.repository.OrderRepository;
 import com.krizan.e_commerce.service.api.OrderService;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ public class OrderServiceImpl implements OrderService {
                 .parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
         order.setNumberOfProducts(order.calcNumberOfProducts());
         order.setTotalOrderPrice(order.calcTotalOrderPrice());
+        order.setStatus(OrderStatus.WAITING);
+
         orderRepository.save(order);
         Long id = order.getOrderId();
         return new ResponseEntity<>("Order has been created with id: " + id + ".", HttpStatus.OK);

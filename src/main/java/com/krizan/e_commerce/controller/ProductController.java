@@ -2,6 +2,7 @@ package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.model.Product;
 import com.krizan.e_commerce.service.api.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,28 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {}
+    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
+    }
 
     @PatchMapping("/{id}")
-    public void updateProduct(@PathVariable("id") Long id, @RequestBody Product newProduct) {}
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,
+                              @RequestBody Product newProduct) {
+        return productService.updateProduct(id, newProduct);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") Long id) {}
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+        return productService.deleteProduct(id);
+    }
 
     @GetMapping
-    public void getAllProducts() {}
+    public ResponseEntity<Iterable<Product>> getAllProducts() {
+        return productService.getAllProducts();
+    }
 
     @GetMapping("/{id}")
-    public void getProductById(@PathVariable("id") Long id) {}
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+        return productService.getProductById(id);
+    }
 }

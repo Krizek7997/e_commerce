@@ -2,6 +2,7 @@ package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.model.Order;
 import com.krizan.e_commerce.service.api.OrderService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,27 @@ public class OrderController {
     }
 
     @PostMapping
-    public void addOrder(@RequestBody Order order) {}
+    public ResponseEntity<String> addOrder(@RequestBody Order order) {
+        return orderService.addOrder(order);
+    }
 
     @PatchMapping("/{id}")
-    public void updateOrder(@PathVariable("id") Long id, @RequestBody Order newOrder) {}
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Long id, @RequestBody Order newOrder) {
+        return orderService.updateOrder(id, newOrder);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {}
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
+        return orderService.deleteOrder(id);
+    }
 
     @GetMapping
-    public void getAllOrders() {}
+    public ResponseEntity<Iterable<Order>> getAllOrders() {
+        return orderService.getAllOrders();
+    }
 
     @GetMapping("/{id}")
-    public void getOrderById(@PathVariable("id") Long id) {}
+    public ResponseEntity<Order> getOrderById(@PathVariable("id") Long id) {
+        return orderService.getOrderById(id);
+    }
 }

@@ -37,8 +37,7 @@ public class Customer {
     @NonNull
     private String address;
 
-    @NonNull
-    private Integer postalCode;
+    @NonNull String postalCode;
 
     @Nullable
     @OneToMany(mappedBy = "customer")

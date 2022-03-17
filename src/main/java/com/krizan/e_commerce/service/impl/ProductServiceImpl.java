@@ -48,6 +48,8 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<Product> updateProduct(Long productId, Product newProduct) {
         Product oldProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalStateException("Product with id: " + productId + " does not exist."));
+        oldProduct.setVendor(newProduct.getVendor());
+        oldProduct.setGender(newProduct.getGender());
         oldProduct.setCategory(newProduct.getCategory());
         oldProduct.setName(newProduct.getName());
         oldProduct.setDescription(newProduct.getDescription());

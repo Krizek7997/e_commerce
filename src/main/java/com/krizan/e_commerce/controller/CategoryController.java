@@ -2,6 +2,7 @@ package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.service.api.CategoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,27 @@ public class CategoryController {
     }
 
     @PostMapping
-    public void addCategory(@RequestBody Category category) {}
+    public ResponseEntity<String> addCategory(@RequestBody Category category) {
+        return categoryService.addCategory(category);
+    }
 
     @PatchMapping("/{id}")
-    public void updateCategory(@PathVariable("id") Long id, @RequestBody Category newCategory) {}
+    public ResponseEntity<Category> updateCategory(@PathVariable("id") Long id, @RequestBody Category newCategory) {
+        return categoryService.updateCategory(id, newCategory);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable("id") Long id) {}
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
+        return categoryService.deleteCategory(id);
+    }
 
     @GetMapping
-    public void getAllCategories() {}
+    public ResponseEntity<Iterable<Category>> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
 
     @GetMapping("/{id}")
-    public void getCategoryById(@PathVariable("id") Long id) {}
+    public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id) {
+        return categoryService.getCategoryById(id);
+    }
 }

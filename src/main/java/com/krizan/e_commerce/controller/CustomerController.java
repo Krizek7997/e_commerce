@@ -2,6 +2,7 @@ package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.model.Customer;
 import com.krizan.e_commerce.service.api.CustomerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +17,27 @@ public class CustomerController {
     }
 
     @PostMapping
-    public void addCustomer(@RequestBody Customer customer) {}
+    public ResponseEntity<String> addCustomer(@RequestBody Customer customer) {
+        return customerService.addCustomer(customer);
+    }
 
     @PatchMapping("/{id}")
-    public void updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {}
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer newCustomer) {
+        return customerService.updateCustomer(id, newCustomer);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable("id") Long id) {}
+    public ResponseEntity<String> deleteCustomer(@PathVariable("id") Long id) {
+        return customerService.deleteCustomer(id);
+    }
 
     @GetMapping
-    public void getAllCustomers() {}
+    public ResponseEntity<Iterable<Customer>> getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
 
     @GetMapping("/{id}")
-    public void getCustomerById(@PathVariable("id") Long id) {}
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id) {
+        return customerService.getCustomerById(id);
+    }
 }

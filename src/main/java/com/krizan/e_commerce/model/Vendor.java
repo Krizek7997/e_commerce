@@ -30,7 +30,7 @@ public class Vendor {
     private String address;
 
     @NonNull
-    private Integer postalCode;
+    private String postalCode;
 
     @NonNull
     private String email;
