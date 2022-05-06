@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalStateException("UnitPrice must not be less than 0.");
         }
 
-        product.setFinalUnitPrice(product.calcFinalUnitPrice());
+//        product.setFinalUnitPrice(product.calcFinalUnitPrice());
         productRepository.save(product);
         Long id = product.getProductId();
         return new ResponseEntity<>("Product has been created with id: " + id + ".", HttpStatus.OK);

@@ -1,13 +1,14 @@
 package com.krizan.e_commerce.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.krizan.e_commerce.utils.OrderStatus;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,7 +21,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Nullable
     private Long orderId;
 
@@ -33,7 +34,7 @@ public class Order {
     @OneToMany(mappedBy = "order")
     @NonNull
     @ToString.Exclude
-    private List<OrderProduct> orderProducts = new ArrayList<>();
+    private List<OrderProduct> orderProducts;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Nullable
@@ -47,16 +48,4 @@ public class Order {
 
     @Nullable
     private OrderStatus status;
-
-    public BigDecimal calcTotalOrderPrice() {
-        BigDecimal total = BigDecimal.ZERO;
-        List<OrderProduct> orderProducts = getOrderProducts();
-        for (OrderProduct oP : orderProducts) total = total.add(oP.getTotalPrice());
-        return total;
-    }
-
-    public Integer calcNumberOfProducts() {
-        return orderProducts.size();
-    }
-
 }

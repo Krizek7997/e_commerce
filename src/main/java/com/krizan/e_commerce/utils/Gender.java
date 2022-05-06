@@ -1,4 +1,4 @@
-package com.krizan.e_commerce.model;
+package com.krizan.e_commerce.utils;
 
 public enum Gender {
     MALE,

@@ -4,7 +4,6 @@ import lombok.*;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ import java.math.BigDecimal;
 public class OrderProduct {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderProductId;
 
     @ManyToOne
@@ -31,10 +30,4 @@ public class OrderProduct {
 
     @NonNull
     private Integer quantity;
-
-    public BigDecimal getTotalPrice() {
-        if (getProduct().getFinalUnitPrice() != null) {
-            return getProduct().getFinalUnitPrice().multiply(BigDecimal.valueOf(getQuantity()));
-        } else throw new NullPointerException();
-    }
 }

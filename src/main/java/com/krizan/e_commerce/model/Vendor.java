@@ -1,10 +1,12 @@
 package com.krizan.e_commerce.model;
 
+import com.krizan.e_commerce.dto.request.VendorRequest;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -47,4 +49,14 @@ public class Vendor {
     @ToString.Exclude
     private List<Product> productList;
 
+    public Vendor(VendorRequest request) {
+        this.name = request.getName();
+        this.country = request.getCountry();
+        this.address = request.getAddress();
+        this.postalCode = request.getPostalCode();
+        this.email = request.getEmail();
+        this.phoneNumber = request.getPhoneNumber();
+        this.url = request.getUrl();
+        this.productList = new ArrayList<>();
+    }
 }

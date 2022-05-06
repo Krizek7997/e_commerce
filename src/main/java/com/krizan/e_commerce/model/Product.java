@@ -1,11 +1,13 @@
 package com.krizan.e_commerce.model;
 
+import com.krizan.e_commerce.dto.request.ProductRequest;
+import com.krizan.e_commerce.utils.Gender;
 import lombok.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Getter
 @Setter
@@ -17,7 +19,7 @@ import java.math.RoundingMode;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Nullable
     private Long productId;
 
@@ -52,7 +54,7 @@ public class Product {
     @NonNull
     private Boolean discountAvailable;
 
-    @NonNull
+    @Nullable
     private Integer discount;
 
     @Nullable
@@ -61,9 +63,17 @@ public class Product {
     @NonNull
     private Integer quantity;
 
-    public BigDecimal calcFinalUnitPrice() {
-        BigDecimal discountInBigDecimal = BigDecimal.valueOf(getDiscount())
-                .divide(BigDecimal.valueOf(100), RoundingMode.UNNECESSARY);
-        return unitPrice.subtract(unitPrice.multiply(discountInBigDecimal));
+    public Product(ProductRequest request, Category category, Vendor vendor) {
+        this.vendor = vendor;
+        this.gender = request.getGender();
+        this.category = category;
+        this.name = request.getName();
+        this.description = request.getDescription();
+        this.color = request.getColor();
+        this.size = request.getSize();
+        this.unitPrice = request.getUnitPrice();
+        this.discount = request.getDiscount();
+        this.discountAvailable = discount != null;
+        this.quantity = request.getQuantity();
     }
 }
