@@ -1,10 +1,17 @@
 package com.krizan.e_commerce.controller;
 
-import com.krizan.e_commerce.model.Category;
+import com.krizan.e_commerce.dto.request.CategoryRequest;
+import com.krizan.e_commerce.dto.response.CategoryResponse;
+import com.krizan.e_commerce.dto.updateRequest.CategoryUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/category")
@@ -17,27 +24,31 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addCategory(@RequestBody Category category) {
-        return categoryService.addCategory(category);
+    public ResponseEntity<CategoryResponse> addCategory(@RequestBody CategoryRequest request) {
+        return new ResponseEntity<>(new CategoryResponse(categoryService.addCategory(request)), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("id") Long id, @RequestBody Category newCategory) {
-        return categoryService.updateCategory(id, newCategory);
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponse> updateCategory(@PathVariable("id") Long id,
+                                                           @RequestBody CategoryUpdateRequest request) throws NotFoundException {
+        return new ResponseEntity<>(new CategoryResponse(categoryService.updateCategory(id, request)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
-        return categoryService.deleteCategory(id);
+    public void deleteCategory(@PathVariable("id") Long id) throws NotFoundException {
+        categoryService.deleteCategory(id);
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Category>> getAllCategories() {
-        return categoryService.getAllCategories();
+    public List<CategoryResponse> getAllCategories() {
+        return categoryService.getAllCategories()
+                .stream()
+                .map(CategoryResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id) {
-        return categoryService.getCategoryById(id);
+    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable("id") Long id) throws NotFoundException {
+        return new ResponseEntity<>(new CategoryResponse(categoryService.getCategoryById(id)), HttpStatus.OK);
     }
 }

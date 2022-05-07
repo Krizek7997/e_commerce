@@ -1,14 +1,20 @@
 package com.krizan.e_commerce.service.api;
 
+import com.krizan.e_commerce.dto.request.ProductRequest;
+import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Product;
-import org.springframework.http.ResponseEntity;
+import com.krizan.e_commerce.utils.Amount;
+
+import java.util.List;
 
 public interface ProductService {
 
-    ResponseEntity<String> addProduct(Product product);
-    ResponseEntity<String> deleteProduct(Long productId);
-    ResponseEntity<Product> updateProduct(Long productId, Product newProduct);
-    ResponseEntity<Iterable<Product>> getAllProducts();
-    ResponseEntity<Product> getProductById(Long productId);
-
+    Product addProduct(ProductRequest request);
+    void deleteProduct(Long productId) throws NotFoundException;
+    Product updateProduct(Long productId, ProductUpdateRequest request);
+    List<Product> getAllProducts();
+    Product getProductById(Long productId) throws NotFoundException;
+    Product addProductQuantity(Long productId, Amount amount);
+    Product setDiscount(Long productId, Amount amount);
 }

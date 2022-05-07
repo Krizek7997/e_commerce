@@ -1,10 +1,17 @@
 package com.krizan.e_commerce.controller;
 
-import com.krizan.e_commerce.model.Vendor;
+import com.krizan.e_commerce.dto.request.VendorRequest;
+import com.krizan.e_commerce.dto.response.VendorResponse;
+import com.krizan.e_commerce.dto.updateRequest.VendorUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.VendorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/vendor")
@@ -17,28 +24,31 @@ public class VendorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
-        return vendorService.addVendor(vendor);
+    public ResponseEntity<VendorResponse> addVendor(@RequestBody VendorRequest request) {
+        return new ResponseEntity<>(new VendorResponse(vendorService.addVendor(request)), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Vendor> updateVendor(@PathVariable("id") Long id,
-                                               @RequestBody Vendor newVendor) {
-        return vendorService.updateVendor(id, newVendor);
+    @PutMapping("/{id}")
+    public ResponseEntity<VendorResponse> updateVendor(@PathVariable("id") Long id,
+                                               @RequestBody VendorUpdateRequest request) throws NotFoundException {
+        return new ResponseEntity<>(new VendorResponse(vendorService.updateVendor(id, request)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteVendor(@PathVariable Long id) {
-        return vendorService.deleteVendor(id);
+    public void deleteVendor(@PathVariable Long id) throws NotFoundException {
+        vendorService.deleteVendor(id);
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Vendor>> getAllVendors() {
-        return vendorService.getAllVendors();
+    public List<VendorResponse> getAllVendors() {
+        return vendorService.getAllVendors()
+                .stream()
+                .map(VendorResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vendor> getVendorById(@PathVariable("id") Long id) {
-        return vendorService.getVendorById(id);
+    public ResponseEntity<VendorResponse> getVendorById(@PathVariable("id") Long id) throws NotFoundException {
+        return new ResponseEntity<>(new VendorResponse(vendorService.getVendorById(id)), HttpStatus.OK);
     }
 }

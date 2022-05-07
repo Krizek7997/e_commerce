@@ -1,5 +1,6 @@
-package com.krizan.e_commerce.dto.request;
+package com.krizan.e_commerce.dto.updateRequest;
 
+import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.utils.Gender;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,11 +9,10 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ProductRequest {
+public class ProductUpdateRequest {
 
-    private Long vendor;
     private Gender gender;
-    private Long category;
+    private Category category;
     private String name;
     private String description;
     private String color;

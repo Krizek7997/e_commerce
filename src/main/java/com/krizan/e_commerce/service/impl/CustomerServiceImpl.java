@@ -1,63 +1,75 @@
 package com.krizan.e_commerce.service.impl;
 
+import com.krizan.e_commerce.dto.request.CustomerRequest;
+import com.krizan.e_commerce.dto.updateRequest.CustomerUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Customer;
 import com.krizan.e_commerce.repository.CustomerRepository;
 import com.krizan.e_commerce.service.api.CustomerService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.krizan.e_commerce.service.api.OrderService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final OrderService orderService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, OrderService orderService) {
         this.customerRepository = customerRepository;
+        this.orderService = orderService;
     }
 
     @Override
-    public ResponseEntity<String> addCustomer(Customer customer) {
-        customerRepository.save(customer);
-        Long id = customer.getCustomerId();
-        return new ResponseEntity<>("Customer has been created with id: " + id + ".", HttpStatus.OK);
+    public Customer addCustomer(CustomerRequest request) {
+        return customerRepository.save(new Customer(request));
     }
 
     @Override
-    public ResponseEntity<String> deleteCustomer(Long customerId) {
-        customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
-        customerRepository.deleteById(customerId);
-        return new ResponseEntity<>("Customer with id: " + customerId
-                + " has been deleted.", HttpStatus.OK);
+    public void deleteCustomer(Long customerId) throws NotFoundException {
+        Customer customer = getCustomerById(customerId);
+        customerRepository.delete(customer);
     }
 
     @Override
-    public ResponseEntity<Customer> updateCustomer(Long customerId, Customer newCustomer) {
-        Customer oldCustomer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
-        oldCustomer.setFirstName(newCustomer.getFirstName());
-        oldCustomer.setSurname(newCustomer.getSurname());
-        oldCustomer.setEmail(newCustomer.getEmail());
-        oldCustomer.setPhoneNumber(newCustomer.getPhoneNumber());
-        oldCustomer.setAddress(newCustomer.getAddress());
-        oldCustomer.setPostalCode(newCustomer.getPostalCode());
-        oldCustomer.setOrders(newCustomer.getOrders());
+    public Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException {
+        Customer customer = getCustomerById(customerId);
 
-        customerRepository.save(oldCustomer);
-        return new ResponseEntity<>(oldCustomer, HttpStatus.OK);
+        if (request.getFirstName() != null) {
+            customer.setFirstName(request.getFirstName());
+        }
+        if (request.getSurname() != null) {
+            customer.setSurname(request.getSurname());
+        }
+        if (request.getEmail() != null) {
+            customer.setEmail(request.getEmail());
+        }
+        if (request.getPhoneNumber() != null) {
+            customer.setPhoneNumber(request.getPhoneNumber());
+        }
+        if (request.getAddress() != null) {
+            customer.setAddress(request.getAddress());
+        }
+        if (request.getPostalCode() != null) {
+            customer.setPostalCode(request.getPostalCode());
+        }
+
+        return customerRepository.save(customer);
     }
 
     @Override
-    public ResponseEntity<Iterable<Customer>> getAllCustomers() {
-        Iterable<Customer> customers = customerRepository.findAll();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAllCustomers();
     }
 
     @Override
-    public ResponseEntity<Customer> getCustomerById(Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalStateException("Customer with id: " + customerId + " does not exist."));
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+    public Customer getCustomerById(Long customerId) throws NotFoundException {
+        Customer customer = customerRepository.findCustomerByCustomerId(customerId);
+        if (customer == null) {
+            throw new NotFoundException();
+        }
+        return customer;
     }
 }

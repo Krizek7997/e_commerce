@@ -1,14 +1,18 @@
 package com.krizan.e_commerce.service.api;
 
+import com.krizan.e_commerce.dto.request.CustomerRequest;
+import com.krizan.e_commerce.dto.updateRequest.CustomerUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Customer;
-import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 public interface CustomerService {
 
-    ResponseEntity<String> addCustomer(Customer customer);
-    ResponseEntity<String> deleteCustomer(Long customerId);
-    ResponseEntity<Customer> updateCustomer(Long customerId, Customer newCustomer);
-    ResponseEntity<Iterable<Customer>> getAllCustomers();
-    ResponseEntity<Customer> getCustomerById(Long customerId);
+    Customer addCustomer(CustomerRequest request);
+    void deleteCustomer(Long customerId) throws NotFoundException;
+    Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException;
+    List<Customer> getAllCustomers();
+    Customer getCustomerById(Long customerId) throws NotFoundException;
 
 }

@@ -1,80 +1,68 @@
 package com.krizan.e_commerce.service.impl;
 
+import com.krizan.e_commerce.dto.request.ProductRequest;
+import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Product;
 import com.krizan.e_commerce.repository.ProductRepository;
+import com.krizan.e_commerce.service.api.CategoryService;
 import com.krizan.e_commerce.service.api.ProductService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.krizan.e_commerce.service.api.VendorService;
+import com.krizan.e_commerce.utils.Amount;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+    private final VendorService vendorService;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, VendorService vendorService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
+        this.vendorService = vendorService;
     }
 
     @Override
-    public ResponseEntity<String> addProduct(Product product) {
-        if (product.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalStateException("UnitPrice must not be less than 0.");
+    public Product addProduct(ProductRequest request) {
+        return null;
+    }
+
+    @Override
+    public void deleteProduct(Long productId) throws NotFoundException {
+        Product product = getProductById(productId);
+        productRepository.delete(product);
+    }
+
+    @Override
+    public Product updateProduct(Long productId, ProductUpdateRequest request) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.findAllProducts();
+    }
+
+    @Override
+    public Product getProductById(Long productId) throws NotFoundException {
+        Product product = productRepository.findProductByProductId(productId);
+        if (product == null) {
+            throw new NotFoundException();
         }
-        if (product.getDiscount() < 0 || product.getDiscount() > 100) {
-            throw new IllegalStateException("Discount must be in range 0-100.");
-        }
-        if (product.getQuantity() < 0) {
-            throw new IllegalStateException("UnitPrice must not be less than 0.");
-        }
-
-//        product.setFinalUnitPrice(product.calcFinalUnitPrice());
-        productRepository.save(product);
-        Long id = product.getProductId();
-        return new ResponseEntity<>("Product has been created with id: " + id + ".", HttpStatus.OK);
+        return product;
     }
 
     @Override
-    public ResponseEntity<String> deleteProduct(Long productId) {
-        productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product with id: " + productId + " does not exist."));
-        productRepository.deleteById(productId);
-        return new ResponseEntity<>("Product with id: " + productId
-                + " has been deleted.", HttpStatus.OK);
+    public Product addProductQuantity(Long productId, Amount amount) {
+        return null;
     }
 
     @Override
-    public ResponseEntity<Product> updateProduct(Long productId, Product newProduct) {
-        Product oldProduct = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product with id: " + productId + " does not exist."));
-        oldProduct.setVendor(newProduct.getVendor());
-        oldProduct.setGender(newProduct.getGender());
-        oldProduct.setCategory(newProduct.getCategory());
-        oldProduct.setName(newProduct.getName());
-        oldProduct.setDescription(newProduct.getDescription());
-        oldProduct.setColor(newProduct.getColor());
-        oldProduct.setSize(newProduct.getSize());
-        oldProduct.setUnitPrice(newProduct.getUnitPrice());
-        oldProduct.setDiscountAvailable(newProduct.getDiscountAvailable());
-        oldProduct.setDiscount(newProduct.getDiscount());
-        oldProduct.setFinalUnitPrice(newProduct.getFinalUnitPrice());
-        oldProduct.setQuantity(newProduct.getQuantity());
-
-        productRepository.save(oldProduct);
-        return new ResponseEntity<>(oldProduct, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Iterable<Product>> getAllProducts() {
-        Iterable<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Product> getProductById(Long productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product with id: " + productId + " does not exist."));
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public Product setDiscount(Long productId, Amount amount) {
+        return null;
     }
 }

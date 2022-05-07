@@ -1,11 +1,14 @@
 package com.krizan.e_commerce.service.impl;
 
+import com.krizan.e_commerce.dto.request.CategoryRequest;
+import com.krizan.e_commerce.dto.updateRequest.CategoryUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.repository.CategoryRepository;
 import com.krizan.e_commerce.service.api.CategoryService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -16,42 +19,38 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+
     @Override
-    public ResponseEntity<String> addCategory(Category category) {
-        categoryRepository.save(category);
-        Long id = category.getCategoryId();
-        return new ResponseEntity<>("Category has been created with id: " + id + ".", HttpStatus.OK);
+    public Category addCategory(CategoryRequest request) {
+        return categoryRepository.save(new Category(request));
     }
 
     @Override
-    public ResponseEntity<String> deleteCategory(Long categoryId) {
-        categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalStateException("Category with id: " + categoryId + " does not exist."));
-        categoryRepository.deleteById(categoryId);
-        return new ResponseEntity<>("Category with id: " + categoryId
-                + " has been deleted.", HttpStatus.OK);
+    public void deleteCategory(Long categoryId) throws NotFoundException {
+        Category category = getCategoryById(categoryId);
+        categoryRepository.delete(category);
     }
 
     @Override
-    public ResponseEntity<Category> updateCategory(Long categoryId, Category newCategory) {
-        Category oldCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalStateException("Category with id: " + categoryId + " does not exist."));
-        oldCategory.setName(newCategory.getName());
-
-        categoryRepository.save(oldCategory);
-        return new ResponseEntity<>(oldCategory, HttpStatus.OK);
+    public Category updateCategory(Long categoryId, CategoryUpdateRequest request) throws NotFoundException {
+        Category category = getCategoryById(categoryId);
+        if (request.getName() != null) {
+            category.setName(request.getName());
+        }
+        return categoryRepository.save(category);
     }
 
     @Override
-    public ResponseEntity<Iterable<Category>> getAllCategories() {
-        Iterable<Category> categories = categoryRepository.findAll();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAllCategories();
     }
 
     @Override
-    public ResponseEntity<Category> getCategoryById(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalStateException("Category with id: " + categoryId + " does not exist."));
-        return new ResponseEntity<>(category, HttpStatus.OK);
+    public Category getCategoryById(Long categoryId) throws NotFoundException {
+        Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+        if (category == null) {
+            throw new NotFoundException();
+        }
+        return category;
     }
 }

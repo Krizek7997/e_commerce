@@ -1,11 +1,14 @@
 package com.krizan.e_commerce.service.impl;
 
+import com.krizan.e_commerce.dto.request.VendorRequest;
+import com.krizan.e_commerce.dto.updateRequest.VendorUpdateRequest;
+import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Vendor;
 import com.krizan.e_commerce.repository.VendorRepository;
 import com.krizan.e_commerce.service.api.VendorService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VendorServiceImpl implements VendorService {
@@ -17,47 +20,56 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public ResponseEntity<String> addVendor(Vendor vendor) {
-        vendorRepository.save(vendor);
-        Long id = vendor.getVendorId();
-        return new ResponseEntity<>("Vendor has been created with id: " + id + ".", HttpStatus.OK);
+    public Vendor addVendor(VendorRequest request) {
+        return vendorRepository.save(new Vendor(request));
     }
 
     @Override
-    public ResponseEntity<String> deleteVendor(Long vendorId) {
-        vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalStateException("Vendor with id: " + vendorId + " does not exist."));
-        vendorRepository.deleteById(vendorId);
-        return new ResponseEntity<>("Category with id: " + vendorId
-                + " has been deleted.", HttpStatus.OK);
+    public void deleteVendor(Long vendorId) throws NotFoundException {
+        Vendor vendor = getVendorById(vendorId);
+        vendorRepository.delete(vendor);
     }
 
     @Override
-    public ResponseEntity<Vendor> updateVendor(Long vendorId, Vendor newVendor) {
-        Vendor oldVendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalStateException("Vendor with id: " + vendorId + " does not exist."));
-        oldVendor.setName(newVendor.getName());
-        oldVendor.setCountry(newVendor.getCountry());
-        oldVendor.setAddress(newVendor.getAddress());
-        oldVendor.setPostalCode(newVendor.getPostalCode());
-        oldVendor.setEmail(newVendor.getEmail());
-        oldVendor.setPhoneNumber(newVendor.getPhoneNumber());
-        oldVendor.setUrl(newVendor.getUrl());
+    public Vendor updateVendor(Long vendorId, VendorUpdateRequest request) throws NotFoundException {
+        Vendor vendor = getVendorById(vendorId);
 
-        vendorRepository.save(oldVendor);
-        return new ResponseEntity<>(oldVendor, HttpStatus.OK);
+        if (request.getName() != null) {
+            vendor.setName(request.getName());
+        }
+        if (request.getCountry() != null) {
+            vendor.setCountry(request.getCountry());
+        }
+        if (request.getAddress() != null) {
+            vendor.setAddress(request.getAddress());
+        }
+        if (request.getPostalCode() != null) {
+            vendor.setPostalCode(request.getPostalCode());
+        }
+        if (request.getEmail() != null) {
+            vendor.setEmail(request.getEmail());
+        }
+        if (request.getPhoneNumber() != null) {
+            vendor.setPhoneNumber(request.getEmail());
+        }
+        if (request.getUrl() != null) {
+            vendor.setUrl(request.getUrl());
+        }
+
+        return vendorRepository.save(vendor);
     }
 
     @Override
-    public ResponseEntity<Iterable<Vendor>> getAllVendors() {
-        Iterable<Vendor> vendors = vendorRepository.findAll();
-        return new ResponseEntity<>(vendors, HttpStatus.OK);
+    public List<Vendor> getAllVendors() {
+        return vendorRepository.findAllVendors();
     }
 
     @Override
-    public ResponseEntity<Vendor> getVendorById(Long vendorId) {
-        Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalStateException("Vendor with id: " + vendorId + " does not exist."));
-        return new ResponseEntity<>(vendor, HttpStatus.OK);
+    public Vendor getVendorById(Long vendorId) throws NotFoundException {
+        Vendor vendor = vendorRepository.findVendorByVendorId(vendorId);
+        if (vendor == null) {
+            throw new NotFoundException();
+        }
+        return vendor;
     }
 }

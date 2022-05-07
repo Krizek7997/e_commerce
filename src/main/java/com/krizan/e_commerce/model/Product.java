@@ -72,7 +72,6 @@ public class Product {
         this.color = request.getColor();
         this.size = request.getSize();
         this.unitPrice = request.getUnitPrice();
-        this.discount = request.getDiscount();
         this.discountAvailable = discount != null;
         this.quantity = request.getQuantity();
     }

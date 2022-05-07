@@ -3,6 +3,8 @@ package com.krizan.e_commerce.service.api;
 import com.krizan.e_commerce.model.Order;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface OrderService {
 
     ResponseEntity<String> addOrder(Order order);
@@ -11,4 +13,5 @@ public interface OrderService {
     ResponseEntity<Iterable<Order>> getAllOrders();
     ResponseEntity<Order> getOrderById(Long orderId);
 
+    List<Order> getOrdersByCustomerId(Long customerId);
 }
