@@ -3,6 +3,7 @@ package com.krizan.e_commerce.controller;
 import com.krizan.e_commerce.dto.request.ProductRequest;
 import com.krizan.e_commerce.dto.response.ProductResponse;
 import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.ProductService;
 import com.krizan.e_commerce.utils.Amount;
@@ -25,18 +26,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest request) throws NotFoundException {
         return new ResponseEntity<>(new ProductResponse(productService.addProduct(request)), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
-                              @RequestBody ProductUpdateRequest request) {
+                              @RequestBody ProductUpdateRequest request) throws NotFoundException {
         return new ResponseEntity<>(new ProductResponse(productService.updateProduct(id, request)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") Long id) {
+    public void deleteProduct(@PathVariable("id") Long id) throws NotFoundException {
         productService.deleteProduct(id);
     }
 
@@ -53,13 +54,15 @@ public class ProductController {
         return new ResponseEntity<>(new ProductResponse(productService.getProductById(id)), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/addQuantity")
-    public ResponseEntity<ProductResponse> addProductQuantity(@PathVariable("id") Long id, @RequestBody Amount amount) {
+    @PatchMapping("/{id}/addQuantity")
+    public ResponseEntity<ProductResponse> addProductQuantity(@PathVariable("id") Long id,
+                                                              @RequestBody Amount amount) throws NotFoundException {
         return new ResponseEntity<>(new ProductResponse(productService.addProductQuantity(id, amount)), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/setDiscount")
-    public ResponseEntity<ProductResponse> setDiscount(@PathVariable("id") Long id, @RequestBody Amount amount) {
+    @PatchMapping("/{id}/setDiscount")
+    public ResponseEntity<ProductResponse> setDiscount(@PathVariable("id") Long id,
+                                                       @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
         return new ResponseEntity<>(new ProductResponse(productService.setDiscount(id, amount)), HttpStatus.OK);
     }
 }

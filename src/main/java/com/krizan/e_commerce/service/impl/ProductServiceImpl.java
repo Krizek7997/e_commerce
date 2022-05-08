@@ -2,8 +2,11 @@ package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.dto.request.ProductRequest;
 import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
+import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.model.Product;
+import com.krizan.e_commerce.model.Vendor;
 import com.krizan.e_commerce.repository.ProductRepository;
 import com.krizan.e_commerce.service.api.CategoryService;
 import com.krizan.e_commerce.service.api.ProductService;
@@ -11,6 +14,7 @@ import com.krizan.e_commerce.service.api.VendorService;
 import com.krizan.e_commerce.utils.Amount;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -27,8 +31,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(ProductRequest request) {
-        return null;
+    public Product addProduct(ProductRequest request) throws NotFoundException {
+        Category category = categoryService.getCategoryById(request.getCategory());
+        Vendor vendor = vendorService.getVendorById(request.getVendor());
+        Product product = new Product(request, category, vendor);
+        return productRepository.save(product);
     }
 
     @Override
@@ -38,8 +45,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long productId, ProductUpdateRequest request) {
-        return null;
+    public Product updateProduct(Long productId, ProductUpdateRequest request) throws NotFoundException {
+        Product product = getProductById(productId);
+
+        if (request.getGender() != null) {
+            product.setGender(request.getGender());
+        }
+        if (request.getCategory() != null) {
+            product.setCategory(categoryService.getCategoryById(request.getCategory()));
+        }
+        if (request.getName() != null) {
+            product.setName(request.getName());
+        }
+        if (request.getDescription() != null) {
+            product.setDescription(request.getDescription());
+        }
+        if (request.getColor() != null) {
+            product.setColor(request.getColor());
+        }
+        if (request.getSize() != null) {
+            product.setSize(request.getSize());
+        }
+        if (request.getUnitPrice() != null
+                && request.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
+            product.setUnitPrice(request.getUnitPrice());
+        }
+
+        return productRepository.save(product);
     }
 
     @Override
@@ -57,12 +89,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProductQuantity(Long productId, Amount amount) {
-        return null;
+    public Product addProductQuantity(Long productId, Amount amount) throws NotFoundException {
+        Product product = getProductById(productId);
+        if (amount != null && amount.getAmount() != null) {
+            product.setQuantity(product.getQuantity() + amount.getAmount());
+        }
+        return productRepository.save(product);
     }
 
     @Override
-    public Product setDiscount(Long productId, Amount amount) {
-        return null;
+    public Product setDiscount(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
+        Product product = getProductById(productId);
+        if (amount != null) {
+            if (amount.getAmount() < 1 || amount.getAmount() > 100) {
+                throw new IllegalOperationException();
+            }
+            if (amount.getAmount() > 0 || amount.getAmount() < 100) {
+                product.setDiscount(amount.getAmount());
+                product.setDiscountAvailable(true);
+            }
+            if (amount.getAmount() == null) {
+                product.setDiscount(null);
+                product.setDiscountAvailable(false);
+            }
+        }
+        return productRepository.save(product);
     }
 }

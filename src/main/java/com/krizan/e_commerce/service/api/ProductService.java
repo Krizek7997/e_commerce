@@ -2,6 +2,7 @@ package com.krizan.e_commerce.service.api;
 
 import com.krizan.e_commerce.dto.request.ProductRequest;
 import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Product;
 import com.krizan.e_commerce.utils.Amount;
@@ -10,11 +11,11 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product addProduct(ProductRequest request);
+    Product addProduct(ProductRequest request) throws NotFoundException;
     void deleteProduct(Long productId) throws NotFoundException;
-    Product updateProduct(Long productId, ProductUpdateRequest request);
+    Product updateProduct(Long productId, ProductUpdateRequest request) throws NotFoundException;
     List<Product> getAllProducts();
     Product getProductById(Long productId) throws NotFoundException;
-    Product addProductQuantity(Long productId, Amount amount);
-    Product setDiscount(Long productId, Amount amount);
+    Product addProductQuantity(Long productId, Amount amount) throws NotFoundException;
+    Product setDiscount(Long productId, Amount amount) throws NotFoundException, IllegalOperationException;
 }

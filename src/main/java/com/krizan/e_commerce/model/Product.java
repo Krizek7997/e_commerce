@@ -72,7 +72,7 @@ public class Product {
         this.color = request.getColor();
         this.size = request.getSize();
         this.unitPrice = request.getUnitPrice();
-        this.discountAvailable = discount != null;
+        this.discountAvailable = false;
         this.quantity = request.getQuantity();
     }
 }
