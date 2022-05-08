@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -31,10 +30,10 @@ public class Order {
     @ToString.Exclude
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
     @NonNull
-    @ToString.Exclude
-    private List<OrderProduct> orderProducts;
+    @OneToOne
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Nullable
