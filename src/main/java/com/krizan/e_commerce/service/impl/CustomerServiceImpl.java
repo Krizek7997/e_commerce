@@ -6,7 +6,6 @@ import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Customer;
 import com.krizan.e_commerce.repository.CustomerRepository;
 import com.krizan.e_commerce.service.api.CustomerService;
-import com.krizan.e_commerce.service.api.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +14,9 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final OrderService orderService;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, OrderService orderService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.orderService = orderService;
     }
 
     @Override

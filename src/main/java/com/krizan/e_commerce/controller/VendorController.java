@@ -7,13 +7,12 @@ import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.VendorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/api/vendor")
 public class VendorController {
 

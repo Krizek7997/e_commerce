@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderUpdateRequest {
+public class OrderStatusUpdateRequest {
 
     private OrderStatus status;
 }

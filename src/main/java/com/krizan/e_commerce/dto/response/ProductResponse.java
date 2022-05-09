@@ -5,7 +5,6 @@ import com.krizan.e_commerce.utils.Gender;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Getter
 public class ProductResponse {
@@ -34,15 +33,7 @@ public class ProductResponse {
         this.size = product.getSize();
         this.unitPrice = product.getUnitPrice();
         this.discount = product.getDiscount();
-        this.finalUnitPrice = calcFinalUnitPrice();
+        this.finalUnitPrice = product.getFinalUnitPrice();
         this.quantity = product.getQuantity();
-    }
-
-    private BigDecimal calcFinalUnitPrice() {
-        if (discount != null) {
-            BigDecimal discountInBigDecimal = BigDecimal.valueOf(discount)
-                    .divide(BigDecimal.valueOf(100), RoundingMode.UNNECESSARY);
-            return unitPrice.subtract(unitPrice.multiply(discountInBigDecimal));
-        } else return null;
     }
 }

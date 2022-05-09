@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Setter
@@ -72,7 +73,16 @@ public class Product {
         this.color = request.getColor();
         this.size = request.getSize();
         this.unitPrice = request.getUnitPrice();
+        this.finalUnitPrice = calcFinalUnitPrice();
         this.discountAvailable = false;
         this.quantity = request.getQuantity();
+    }
+
+    public BigDecimal calcFinalUnitPrice() {
+        if (discount != null) {
+            BigDecimal discountInBigDecimal = BigDecimal.valueOf(discount)
+                    .divide(BigDecimal.valueOf(100), RoundingMode.UNNECESSARY);
+            return unitPrice.subtract(unitPrice.multiply(discountInBigDecimal));
+        } else return unitPrice;
     }
 }

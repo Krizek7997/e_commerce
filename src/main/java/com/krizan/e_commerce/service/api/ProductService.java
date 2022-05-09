@@ -16,6 +16,7 @@ public interface ProductService {
     Product updateProduct(Long productId, ProductUpdateRequest request) throws NotFoundException;
     List<Product> getAllProducts();
     Product getProductById(Long productId) throws NotFoundException;
-    Product addProductQuantity(Long productId, Amount amount) throws NotFoundException;
+    Product addProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException;
+    Product removeProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException;
     Product setDiscount(Long productId, Amount amount) throws NotFoundException, IllegalOperationException;
 }

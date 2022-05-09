@@ -9,13 +9,12 @@ import com.krizan.e_commerce.service.api.ProductService;
 import com.krizan.e_commerce.utils.Amount;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -56,8 +55,14 @@ public class ProductController {
 
     @PatchMapping("/{id}/addQuantity")
     public ResponseEntity<ProductResponse> addProductQuantity(@PathVariable("id") Long id,
-                                                              @RequestBody Amount amount) throws NotFoundException {
+                                                              @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
         return new ResponseEntity<>(new ProductResponse(productService.addProductQuantity(id, amount)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/removeQuantity")
+    public ResponseEntity<ProductResponse> removeProductQuantity(@PathVariable("id") Long id,
+                                                              @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
+        return new ResponseEntity<>(new ProductResponse(productService.removeProductQuantity(id, amount)), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/setDiscount")

@@ -69,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
         if (request.getUnitPrice() != null
                 && request.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
             product.setUnitPrice(request.getUnitPrice());
+            product.setFinalUnitPrice(product.calcFinalUnitPrice());
         }
 
         return productRepository.save(product);
@@ -89,10 +90,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProductQuantity(Long productId, Amount amount) throws NotFoundException {
+    public Product addProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
         Product product = getProductById(productId);
         if (amount != null && amount.getAmount() != null) {
+            if (amount.getAmount() < 0) {
+                throw new IllegalOperationException();
+            }
             product.setQuantity(product.getQuantity() + amount.getAmount());
+        }
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product removeProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
+        Product product = getProductById(productId);
+        if (amount != null && amount.getAmount() != null) {
+            if (product.getQuantity() - amount.getAmount() < 0) {
+                throw new IllegalOperationException();
+            }
+            product.setQuantity(product.getQuantity() - amount.getAmount());
         }
         return productRepository.save(product);
     }
@@ -113,6 +129,7 @@ public class ProductServiceImpl implements ProductService {
                 product.setDiscountAvailable(false);
             }
         }
+        product.setFinalUnitPrice(product.calcFinalUnitPrice());
         return productRepository.save(product);
     }
 }

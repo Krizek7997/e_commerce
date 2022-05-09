@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -47,4 +48,31 @@ public class Order {
 
     @Nullable
     private OrderStatus status;
+
+    public Order(ShoppingCart shoppingCart, Customer customer) {
+        this.customer = customer;
+        this.shoppingCart = shoppingCart;
+        this.dateCreated = LocalDateTime.parse(LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        this.numberOfProducts = calcNumberOfProducts();
+        this.totalOrderPrice = calcTotalOrderPrice();
+    }
+
+    private BigDecimal calcTotalOrderPrice() {
+        var total = BigDecimal.ZERO;
+        for (var entry: shoppingCart.getProducts()) {
+            //  product.getAmount() * product.getTotalUnitPrice()
+            total = total.add(BigDecimal.valueOf(entry.getAmount())
+                    .multiply(entry.getProduct().getFinalUnitPrice()));
+        }
+        return total;
+    }
+
+    private Integer calcNumberOfProducts() {
+        Integer total = 0;
+        for (var product: shoppingCart.getProducts()) {
+            total += product.getAmount();
+        }
+        return total;
+    }
 }
