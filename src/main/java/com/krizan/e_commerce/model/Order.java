@@ -49,6 +49,9 @@ public class Order {
     @Nullable
     private OrderStatus status;
 
+    @NonNull
+    private Boolean payed;
+
     public Order(ShoppingCart shoppingCart, Customer customer) {
         this.customer = customer;
         this.shoppingCart = shoppingCart;
@@ -56,6 +59,8 @@ public class Order {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         this.numberOfProducts = calcNumberOfProducts();
         this.totalOrderPrice = calcTotalOrderPrice();
+        this.status = OrderStatus.WAITING;
+        this.payed = false;
     }
 
     private BigDecimal calcTotalOrderPrice() {
