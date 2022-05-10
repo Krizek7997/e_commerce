@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
 @Table(name = "shopping_cart_entries")

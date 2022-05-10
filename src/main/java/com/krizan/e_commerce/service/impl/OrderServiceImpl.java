@@ -14,6 +14,8 @@ import com.krizan.e_commerce.utils.OrderStatus;
 import com.krizan.e_commerce.utils.ShoppingCartIdRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -25,6 +27,11 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository = orderRepository;
         this.shoppingCartService = shoppingCartService;
         this.customerService = customerService;
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAllOrders();
     }
 
     @Override
@@ -42,8 +49,18 @@ public class OrderServiceImpl implements OrderService {
         if (shoppingCart.getProducts().isEmpty()) {
             throw new IllegalOperationException();
         }
-        Customer customer = customerService.addCustomer(customerRequest);
+
+        Customer customer = customerService.getCustomerByEmail(customerRequest.getEmail());
+        if (customer == null) {
+            customer = customerService.addCustomer(customerRequest);
+        }
+
         Order order = new Order(shoppingCart, customer);
+
+        if (customer.getOrders() != null) {
+            customer.getOrders().add(order);
+        }
+
         return orderRepository.save(order);
     }
 

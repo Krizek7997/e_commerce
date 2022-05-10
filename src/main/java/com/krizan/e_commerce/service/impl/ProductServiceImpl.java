@@ -35,6 +35,14 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryService.getCategoryById(request.getCategory());
         Vendor vendor = vendorService.getVendorById(request.getVendor());
         Product product = new Product(request, category, vendor);
+
+        if (category.getProducts() != null) {
+            category.getProducts().add(product);
+        }
+        if (vendor.getProducts() != null) {
+            vendor.getProducts().add(product);
+        }
+
         return productRepository.save(product);
     }
 

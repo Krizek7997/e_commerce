@@ -47,7 +47,7 @@ public class Vendor {
     @OneToMany(mappedBy = "vendor")
     @Nullable
     @ToString.Exclude
-    private List<Product> productList;
+    private List<Product> products;
 
     public Vendor(VendorRequest request) {
         this.name = request.getName();
@@ -57,6 +57,6 @@ public class Vendor {
         this.email = request.getEmail();
         this.phoneNumber = request.getPhoneNumber();
         this.url = request.getUrl();
-        this.productList = new ArrayList<>();
+        this.products = new ArrayList<>();
     }
 }

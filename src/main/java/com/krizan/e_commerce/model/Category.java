@@ -6,6 +6,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,8 +26,13 @@ public class Category {
     @NonNull
     private String name;
 
+    @Nullable
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
     public Category(CategoryRequest request) {
         this.name = request.getName();
+        this.products = new ArrayList<>();
     }
 
 }

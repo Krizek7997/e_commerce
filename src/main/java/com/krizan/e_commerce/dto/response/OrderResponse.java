@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 public class OrderResponse {
@@ -23,8 +22,7 @@ public class OrderResponse {
         this.orderId = order.getOrderId();
         this.customer = new CustomerResponse(order.getCustomer());
         this.shoppingCart = new ShoppingCartResponse(order.getShoppingCart());
-        this.dateCreated = LocalDateTime.parse(LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        this.dateCreated = order.getDateCreated();
         this.numberOfProducts = order.getNumberOfProducts();
         this.orderPrice = order.getTotalOrderPrice();
         this.status = order.getStatus();

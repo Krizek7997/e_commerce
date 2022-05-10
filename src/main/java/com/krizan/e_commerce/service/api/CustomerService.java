@@ -14,5 +14,6 @@ public interface CustomerService {
     Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException;
     List<Customer> getAllCustomers();
     Customer getCustomerById(Long customerId) throws NotFoundException;
+    Customer getCustomerByEmail(String email);
 
 }

@@ -53,19 +53,19 @@ public class ProductController {
         return new ResponseEntity<>(new ProductResponse(productService.getProductById(id)), HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/addQuantity")
+    @PostMapping("/{id}/addQuantity")
     public ResponseEntity<ProductResponse> addProductQuantity(@PathVariable("id") Long id,
                                                               @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
         return new ResponseEntity<>(new ProductResponse(productService.addProductQuantity(id, amount)), HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/removeQuantity")
+    @PostMapping("/{id}/removeQuantity")
     public ResponseEntity<ProductResponse> removeProductQuantity(@PathVariable("id") Long id,
                                                               @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
         return new ResponseEntity<>(new ProductResponse(productService.removeProductQuantity(id, amount)), HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/setDiscount")
+    @PostMapping("/{id}/setDiscount")
     public ResponseEntity<ProductResponse> setDiscount(@PathVariable("id") Long id,
                                                        @RequestBody Amount amount) throws NotFoundException, IllegalOperationException {
         return new ResponseEntity<>(new ProductResponse(productService.setDiscount(id, amount)), HttpStatus.OK);
