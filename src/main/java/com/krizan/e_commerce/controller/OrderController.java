@@ -6,7 +6,7 @@ import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.OrderService;
 import com.krizan.e_commerce.utils.OrderStatus;
-import com.krizan.e_commerce.utils.ShoppingCartIdRequest;
+import com.krizan.e_commerce.dto.request.ShoppingCartIdRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

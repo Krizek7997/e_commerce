@@ -5,7 +5,7 @@ import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Order;
 import com.krizan.e_commerce.utils.OrderStatus;
-import com.krizan.e_commerce.utils.ShoppingCartIdRequest;
+import com.krizan.e_commerce.dto.request.ShoppingCartIdRequest;
 
 import java.util.List;
 

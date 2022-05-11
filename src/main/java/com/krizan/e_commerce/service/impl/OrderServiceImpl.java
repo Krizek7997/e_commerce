@@ -11,7 +11,7 @@ import com.krizan.e_commerce.service.api.CustomerService;
 import com.krizan.e_commerce.service.api.OrderService;
 import com.krizan.e_commerce.service.api.ShoppingCartService;
 import com.krizan.e_commerce.utils.OrderStatus;
-import com.krizan.e_commerce.utils.ShoppingCartIdRequest;
+import com.krizan.e_commerce.dto.request.ShoppingCartIdRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

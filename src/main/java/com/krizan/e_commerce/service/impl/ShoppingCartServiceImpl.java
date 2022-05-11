@@ -10,7 +10,7 @@ import com.krizan.e_commerce.service.api.ProductService;
 import com.krizan.e_commerce.service.api.ShoppingCartEntryService;
 import com.krizan.e_commerce.service.api.ShoppingCartService;
 import com.krizan.e_commerce.utils.Amount;
-import com.krizan.e_commerce.utils.ProductIdRequest;
+import com.krizan.e_commerce.dto.request.ProductIdRequest;
 import org.springframework.stereotype.Service;
 
 @Service

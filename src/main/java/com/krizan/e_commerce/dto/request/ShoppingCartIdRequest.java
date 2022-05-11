@@ -1,4 +1,4 @@
-package com.krizan.e_commerce.utils;
+package com.krizan.e_commerce.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

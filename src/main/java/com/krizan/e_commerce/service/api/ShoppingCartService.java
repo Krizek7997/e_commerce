@@ -4,7 +4,7 @@ import com.krizan.e_commerce.dto.request.ShoppingCartEntryRequest;
 import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.ShoppingCart;
-import com.krizan.e_commerce.utils.ProductIdRequest;
+import com.krizan.e_commerce.dto.request.ProductIdRequest;
 
 public interface ShoppingCartService {
 
