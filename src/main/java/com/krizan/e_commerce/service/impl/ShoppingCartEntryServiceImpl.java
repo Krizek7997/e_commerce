@@ -3,6 +3,7 @@ package com.krizan.e_commerce.service.impl;
 import com.krizan.e_commerce.dto.request.ShoppingCartEntryRequest;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Product;
+import com.krizan.e_commerce.model.ShoppingCart;
 import com.krizan.e_commerce.model.ShoppingCartEntry;
 import com.krizan.e_commerce.repository.ShoppingCartEntryRepository;
 import com.krizan.e_commerce.service.api.ProductService;
@@ -30,10 +31,10 @@ public class ShoppingCartEntryServiceImpl implements ShoppingCartEntryService {
     }
 
     @Override
-    public ShoppingCartEntry addShoppingCartEntry(ShoppingCartEntryRequest request) throws NotFoundException {
+    public ShoppingCartEntry addShoppingCartEntry(ShoppingCartEntryRequest request, ShoppingCart shoppingCart) throws NotFoundException {
         Product product = productService.getProductById(request.getProductId());
         Integer amount = request.getQuantity();
-        ShoppingCartEntry shoppingCartEntry = new ShoppingCartEntry(product, amount);
+        ShoppingCartEntry shoppingCartEntry = new ShoppingCartEntry(product, amount, shoppingCart);
         return shoppingCartEntryRepository.save(shoppingCartEntry);
     }
 

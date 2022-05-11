@@ -20,7 +20,7 @@ public class VendorResponse {
     private final List<ProductResponse> products;
 
     public VendorResponse(Vendor vendor) {
-        this.vendorId = vendor.getVendorId();
+        this.vendorId = vendor.getId();
         this.name = vendor.getName();
         this.country = vendor.getCountry();
         this.address = vendor.getAddress();

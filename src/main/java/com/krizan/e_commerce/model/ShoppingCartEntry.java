@@ -1,7 +1,9 @@
 package com.krizan.e_commerce.model;
 
-import lombok.*;
-import org.springframework.lang.Nullable;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -15,16 +17,20 @@ public class ShoppingCartEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 
     @ManyToOne
     private Product product;
 
     private Integer amount;
 
-    public ShoppingCartEntry(Product product, Integer amount) {
+    public ShoppingCartEntry(Product product, Integer amount, ShoppingCart shoppingCart) {
         this.product = product;
         this.amount = amount;
+        this.shoppingCart = shoppingCart;
     }
 }

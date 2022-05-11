@@ -19,7 +19,7 @@ public class OrderResponse {
     private final OrderStatus status;
 
     public OrderResponse(Order order) {
-        this.orderId = order.getOrderId();
+        this.orderId = order.getId();
         this.customer = new CustomerResponse(order.getCustomer());
         this.shoppingCart = new ShoppingCartResponse(order.getShoppingCart());
         this.dateCreated = order.getDateCreated();

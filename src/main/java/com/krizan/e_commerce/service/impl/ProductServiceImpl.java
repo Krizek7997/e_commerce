@@ -85,12 +85,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAllProducts();
+        return productRepository.findAll();
     }
 
     @Override
     public Product getProductById(Long productId) throws NotFoundException {
-        Product product = productRepository.findProductByProductId(productId);
+        Product product = productRepository.findProductById(productId);
         if (product == null) {
             throw new NotFoundException();
         }

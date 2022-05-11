@@ -1,7 +1,8 @@
 package com.krizan.e_commerce.model;
 
-import lombok.*;
-import org.springframework.lang.Nullable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,10 +17,9 @@ public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
-    private Long shoppingCartId;
+    private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "shoppingCart")
     private List<ShoppingCartEntry> products;
 
     public ShoppingCart() {

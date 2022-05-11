@@ -13,7 +13,7 @@ public class ShoppingCartResponse {
     private final List<ShoppingCartEntryResponse> products;
 
     public ShoppingCartResponse(ShoppingCart shoppingCart) {
-        this.shoppingCartId = shoppingCart.getShoppingCartId();
+        this.shoppingCartId = shoppingCart.getId();
         this.products = new ArrayList<>();
         if (shoppingCart.getProducts() != null) {
             shoppingCart.getProducts()

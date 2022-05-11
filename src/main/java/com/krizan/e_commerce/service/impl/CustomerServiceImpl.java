@@ -25,12 +25,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomer(Long customerId) throws NotFoundException {
-        Customer customer = getCustomerById(customerId);
-        customerRepository.delete(customer);
-    }
-
-    @Override
     public Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException {
         Customer customer = getCustomerById(customerId);
 
@@ -58,12 +52,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<Customer> getAllCustomers() {
-        return customerRepository.findAllCustomers();
+        return customerRepository.findAll();
     }
 
     @Override
     public Customer getCustomerById(Long customerId) throws NotFoundException {
-        Customer customer = customerRepository.findCustomerByCustomerId(customerId);
+        Customer customer = customerRepository.findCustomerById(customerId);
         if (customer == null) {
             throw new NotFoundException();
         }

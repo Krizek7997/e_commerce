@@ -31,12 +31,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrders() {
-        return orderRepository.findAllOrders();
+        return orderRepository.findAll();
     }
 
     @Override
     public Order getOrderById(Long id) throws NotFoundException {
-        Order order = orderRepository.getOrderByOrderId(id);
+        Order order = orderRepository.getOrderById(id);
         if (order == null) {
             throw new NotFoundException();
         }
@@ -79,6 +79,21 @@ public class OrderServiceImpl implements OrderService {
     public void payForOrder(Long id) throws NotFoundException {
         Order order = getOrderById(id);
         order.setStatus(OrderStatus.CONFIRMED);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public void updateOrderStatus(Long id, OrderStatus request) throws NotFoundException, IllegalOperationException {
+        Order order = getOrderById(id);
+        OrderStatus newStatus = null;
+        for (var status: OrderStatus.values()) {
+            if (request.equals(status)) {
+                newStatus = request;
+                break;
+            }
+        }
+        if (newStatus == null) throw new IllegalOperationException();
+        order.setStatus(newStatus);
         orderRepository.save(order);
     }
 }

@@ -28,7 +28,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getShoppingCartById(Long shoppingCartId) throws NotFoundException {
-        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByShoppingCartId(shoppingCartId);
+        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartById(shoppingCartId);
         if (shoppingCart == null) {
             throw new NotFoundException();
         }
@@ -54,8 +54,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         if (product.getQuantity() - request.getQuantity() < 0) {
             throw new IllegalOperationException();
         }
-        shoppingCart.getProducts().add(shoppingCartEntryService.addShoppingCartEntry(request));
-        productService.removeProductQuantity(product.getProductId(), new Amount(request.getQuantity()));
+        var shoppingCartEntry = shoppingCartEntryService.addShoppingCartEntry(request, shoppingCart);
+        shoppingCart.getProducts().add(shoppingCartEntry);
+        productService.removeProductQuantity(product.getId(), new Amount(request.getQuantity()));
         return shoppingCartRepository.save(shoppingCart);
     }
 
@@ -64,10 +65,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = getShoppingCartById(shoppingCartId);
         Product product = productService.getProductById(request.getProductId());
         for (var entry: shoppingCart.getProducts()) {
-            if (entry.getProduct().getProductId() != null
-                    && entry.getProduct().getProductId().equals(request.getProductId())) {
+            if (entry.getProduct().getId() != null
+                    && entry.getProduct().getId().equals(request.getProductId())) {
                 shoppingCartEntryService.deleteShoppingCartEntry(entry.getId());
-                productService.addProductQuantity(product.getProductId(), new Amount(entry.getAmount()));
+                productService.addProductQuantity(product.getId(), new Amount(entry.getAmount()));
             }
         }
     }

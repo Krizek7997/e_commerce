@@ -42,12 +42,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepository.findAllCategories();
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category getCategoryById(Long categoryId) throws NotFoundException {
-        Category category = categoryRepository.findCategoryByCategoryId(categoryId);
+        Category category = categoryRepository.findCategoryById(categoryId);
         if (category == null) {
             throw new NotFoundException();
         }

@@ -5,6 +5,7 @@ import com.krizan.e_commerce.dto.response.OrderResponse;
 import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.OrderService;
+import com.krizan.e_commerce.utils.OrderStatus;
 import com.krizan.e_commerce.utils.ShoppingCartIdRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +39,10 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponse> addOrder(@RequestBody ShoppingCartIdRequest shoppingCartIdRequest,
-                                                  @RequestBody CustomerRequest customerRequest) throws NotFoundException, IllegalOperationException {
-        return new ResponseEntity<>(new OrderResponse(orderService.addOrder(shoppingCartIdRequest, customerRequest)), HttpStatus.CREATED);
+                                                  @RequestBody CustomerRequest customerRequest)
+            throws NotFoundException, IllegalOperationException {
+        return new ResponseEntity<>(new OrderResponse(orderService.addOrder(shoppingCartIdRequest, customerRequest)),
+                HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/cancel")
@@ -50,5 +53,11 @@ public class OrderController {
     @PostMapping("/{id}/pay")
     public void payForOrder(@PathVariable("id") Long id) throws NotFoundException {
         orderService.payForOrder(id);
+    }
+
+    @PostMapping("/{id}/updateStatus")
+    public void updateOrderStatus(@PathVariable("id") Long id, @RequestBody OrderStatus request)
+            throws NotFoundException, IllegalOperationException {
+        orderService.updateOrderStatus(id, request);
     }
 }

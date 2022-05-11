@@ -19,7 +19,7 @@ public class CustomerResponse {
     private final List<Long> orders;
 
     public CustomerResponse(Customer customer) {
-        this.customerId = customer.getCustomerId();
+        this.customerId = customer.getId();
         this.firstName = customer.getFirstName();
         this.surname = customer.getSurname();
         this.email = customer.getEmail();
@@ -28,7 +28,7 @@ public class CustomerResponse {
         this.postalCode = customer.getPostalCode();
         this.orders = new ArrayList<>();
         if (customer.getOrders() != null) {
-            customer.getOrders().forEach(order -> orders.add(order.getOrderId()));
+            customer.getOrders().forEach(order -> orders.add(order.getId()));
         }
     }
 }

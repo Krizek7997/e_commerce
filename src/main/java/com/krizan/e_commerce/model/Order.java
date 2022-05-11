@@ -3,8 +3,6 @@ package com.krizan.e_commerce.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.krizan.e_commerce.utils.OrderStatus;
 import lombok.*;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @ToString
 @Table(name = "orders")
@@ -22,34 +19,18 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
-    private Long orderId;
-
-    @NonNull
+    private Long id;
     @ManyToOne()
     @JoinColumn(name = "customer_id")
-    @ToString.Exclude
     private Customer customer;
-
-    @NonNull
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
-
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Nullable
     private LocalDateTime dateCreated;
-
-    @Nullable
     private Integer numberOfProducts;
-
-    @Nullable
     private BigDecimal totalOrderPrice;
-
-    @Nullable
     private OrderStatus status;
-
-    @NonNull
     private Boolean payed;
 
     public Order(ShoppingCart shoppingCart, Customer customer) {
@@ -66,7 +47,6 @@ public class Order {
     private BigDecimal calcTotalOrderPrice() {
         var total = BigDecimal.ZERO;
         for (var entry: shoppingCart.getProducts()) {
-            //  product.getAmount() * product.getTotalUnitPrice()
             total = total.add(BigDecimal.valueOf(entry.getAmount())
                     .multiply(entry.getProduct().getFinalUnitPrice()));
         }

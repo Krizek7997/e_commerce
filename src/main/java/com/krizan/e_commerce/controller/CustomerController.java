@@ -33,11 +33,6 @@ public class CustomerController {
         return new ResponseEntity<>(new CustomerResponse(customerService.updateCustomer(id, request)), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable("id") Long id) throws NotFoundException {
-        customerService.deleteCustomer(id);
-    }
-
     @GetMapping
     public List<CustomerResponse> getAllCustomers() {
         return customerService.getAllCustomers()

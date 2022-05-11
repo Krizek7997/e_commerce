@@ -14,7 +14,7 @@ public class CategoryResponse {
     private final List<ProductResponse> products;
 
     public CategoryResponse(Category category) {
-        this.categoryId = category.getCategoryId();
+        this.categoryId = category.getId();
         this.name = category.getName();
         this.products = new ArrayList<>();
         if (category.getProducts() != null) {

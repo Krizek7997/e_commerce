@@ -10,7 +10,6 @@ import java.util.List;
 public interface CustomerService {
 
     Customer addCustomer(CustomerRequest request);
-    void deleteCustomer(Long customerId) throws NotFoundException;
     Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException;
     List<Customer> getAllCustomers();
     Customer getCustomerById(Long customerId) throws NotFoundException;

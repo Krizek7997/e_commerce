@@ -61,12 +61,12 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public List<Vendor> getAllVendors() {
-        return vendorRepository.findAllVendors();
+        return vendorRepository.findAll();
     }
 
     @Override
     public Vendor getVendorById(Long vendorId) throws NotFoundException {
-        Vendor vendor = vendorRepository.findVendorByVendorId(vendorId);
+        Vendor vendor = vendorRepository.findVendorById(vendorId);
         if (vendor == null) {
             throw new NotFoundException();
         }

@@ -23,10 +23,10 @@ public class ProductResponse {
     private final Integer quantity;
 
     public ProductResponse(Product product) {
-        this.productId = product.getProductId();
-        this.vendorId = product.getVendor().getVendorId();
+        this.productId = product.getId();
+        this.vendorId = product.getVendor().getId();
         this.gender = product.getGender();
-        this.categoryId = product.getCategory().getCategoryId();
+        this.categoryId = product.getCategory().getId();
         this.name = product.getName();
         this.description = product.getDescription();
         this.color = product.getColor();
