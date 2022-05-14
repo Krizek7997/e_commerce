@@ -3,14 +3,12 @@ package com.krizan.e_commerce.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "shopping_cart_entries")
 @Entity
 public class ShoppingCartEntry {

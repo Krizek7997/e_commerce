@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name = "orders")
 @Entity
 public class Order {

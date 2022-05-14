@@ -15,6 +15,7 @@ import com.krizan.e_commerce.utils.Amount;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -75,9 +76,9 @@ public class ProductServiceImpl implements ProductService {
             product.setSize(request.getSize());
         }
         if (request.getUnitPrice() != null
-                && request.getUnitPrice().compareTo(BigDecimal.ZERO) < 0) {
+                && request.getUnitPrice().compareTo(BigDecimal.ZERO) > 0) {
             product.setUnitPrice(request.getUnitPrice());
-            product.setFinalUnitPrice(product.calcFinalUnitPrice());
+            calcFinalUnitPrice(product);
         }
 
         return productRepository.save(product);
@@ -128,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
             if (amount.getAmount() < 1 || amount.getAmount() > 100) {
                 throw new IllegalOperationException();
             }
-            if (amount.getAmount() > 0 || amount.getAmount() < 100) {
+            if (amount.getAmount() > 0 && amount.getAmount() < 100) {
                 product.setDiscount(amount.getAmount());
                 product.setDiscountAvailable(true);
             }
@@ -137,7 +138,19 @@ public class ProductServiceImpl implements ProductService {
                 product.setDiscountAvailable(false);
             }
         }
-        product.setFinalUnitPrice(product.calcFinalUnitPrice());
+        calcFinalUnitPrice(product);
         return productRepository.save(product);
+    }
+
+    // TODO: Toto nejde...
+    private void calcFinalUnitPrice(Product product) {
+        if (!product.getDiscountAvailable()){
+            product.setFinalUnitPrice(product.getUnitPrice());
+        } else {
+            var bigDecimalValueOfDiscount = BigDecimal.valueOf(product.getDiscount())
+                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_EVEN);
+            product.setFinalUnitPrice(product.getUnitPrice().subtract(product.getUnitPrice()
+                            .multiply(bigDecimalValueOfDiscount)));
+        }
     }
 }
