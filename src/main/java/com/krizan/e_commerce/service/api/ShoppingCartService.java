@@ -10,7 +10,7 @@ public interface ShoppingCartService {
 
     ShoppingCart getShoppingCartById(Long shoppingCartId) throws NotFoundException;
     ShoppingCart addShoppingCart();
-    void deleteShoppingCart(Long shoppingCartId) throws NotFoundException;
+    void deleteShoppingCart(Long shoppingCartId) throws NotFoundException, IllegalOperationException;
     ShoppingCart addProductToShoppingCart(Long shoppingCartId, ShoppingCartEntryRequest request) throws NotFoundException, IllegalOperationException;
     void deleteProductFromShoppingCart(Long shoppingCartId, ProductIdRequest request) throws NotFoundException, IllegalOperationException;
 }

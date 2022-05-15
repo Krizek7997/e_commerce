@@ -1,8 +1,9 @@
 package com.krizan.e_commerce.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.krizan.e_commerce.utils.OrderStatus;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,7 +26,6 @@ public class Order {
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dateCreated;
     private Integer numberOfProducts;
     private BigDecimal totalOrderPrice;

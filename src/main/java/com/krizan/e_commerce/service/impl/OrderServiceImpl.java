@@ -1,6 +1,7 @@
 package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.dto.request.CustomerRequest;
+import com.krizan.e_commerce.dto.request.OrderStatusRequest;
 import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Customer;
@@ -11,7 +12,6 @@ import com.krizan.e_commerce.service.api.CustomerService;
 import com.krizan.e_commerce.service.api.OrderService;
 import com.krizan.e_commerce.service.api.ShoppingCartService;
 import com.krizan.e_commerce.utils.OrderStatus;
-import com.krizan.e_commerce.dto.request.ShoppingCartIdRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +44,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order addOrder(ShoppingCartIdRequest shoppingCartIdRequest, CustomerRequest customerRequest) throws NotFoundException, IllegalOperationException {
-        ShoppingCart shoppingCart = shoppingCartService.getShoppingCartById(shoppingCartIdRequest.getId());
+    public Order addOrder(Long shoppingCartId, CustomerRequest customerRequest) throws NotFoundException, IllegalOperationException {
+        ShoppingCart shoppingCart = shoppingCartService.getShoppingCartById(shoppingCartId);
         if (shoppingCart.getProducts().isEmpty()) {
             throw new IllegalOperationException();
         }
@@ -83,12 +83,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderStatus(Long id, OrderStatus request) throws NotFoundException, IllegalOperationException {
+    public void updateOrderStatus(Long id, OrderStatusRequest request) throws NotFoundException, IllegalOperationException {
         Order order = getOrderById(id);
         OrderStatus newStatus = null;
         for (var status: OrderStatus.values()) {
-            if (request.equals(status)) {
-                newStatus = request;
+            if (request.getStatus().equals(status)) {
+                newStatus = request.getStatus();
                 break;
             }
         }

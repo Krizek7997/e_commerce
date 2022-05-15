@@ -31,7 +31,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteShoppingCart(@PathVariable("id") Long id) throws NotFoundException {
+    public void deleteShoppingCart(@PathVariable("id") Long id) throws NotFoundException, IllegalOperationException {
         shoppingCartService.deleteShoppingCart(id);
     }
 

@@ -1,12 +1,11 @@
 package com.krizan.e_commerce.controller;
 
 import com.krizan.e_commerce.dto.request.CustomerRequest;
+import com.krizan.e_commerce.dto.request.OrderStatusRequest;
 import com.krizan.e_commerce.dto.response.OrderResponse;
 import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.service.api.OrderService;
-import com.krizan.e_commerce.utils.OrderStatus;
-import com.krizan.e_commerce.dto.request.ShoppingCartIdRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -37,11 +36,11 @@ public class OrderController {
         return new ResponseEntity<>(new OrderResponse(orderService.getOrderById(id)), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<OrderResponse> addOrder(@RequestBody ShoppingCartIdRequest shoppingCartIdRequest,
+    @PostMapping("/{cartId}/create")
+    public ResponseEntity<OrderResponse> addOrder(@PathVariable("cartId") Long cartId,
                                                   @RequestBody CustomerRequest customerRequest)
             throws NotFoundException, IllegalOperationException {
-        return new ResponseEntity<>(new OrderResponse(orderService.addOrder(shoppingCartIdRequest, customerRequest)),
+        return new ResponseEntity<>(new OrderResponse(orderService.addOrder(cartId, customerRequest)),
                 HttpStatus.CREATED);
     }
 
@@ -56,7 +55,7 @@ public class OrderController {
     }
 
     @PostMapping("/{id}/updateStatus")
-    public void updateOrderStatus(@PathVariable("id") Long id, @RequestBody OrderStatus request)
+    public void updateOrderStatus(@PathVariable("id") Long id, @RequestBody OrderStatusRequest request)
             throws NotFoundException, IllegalOperationException {
         orderService.updateOrderStatus(id, request);
     }

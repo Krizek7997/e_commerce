@@ -125,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product setDiscount(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
         Product product = getProductById(productId);
-        if (amount != null) {
+        if (amount != null && amount.getAmount() != null) {
             if (amount.getAmount() < 1 || amount.getAmount() > 100) {
                 throw new IllegalOperationException();
             }
@@ -133,11 +133,12 @@ public class ProductServiceImpl implements ProductService {
                 product.setDiscount(amount.getAmount());
                 product.setDiscountAvailable(true);
             }
-            if (amount.getAmount() == null) {
-                product.setDiscount(null);
-                product.setDiscountAvailable(false);
-            }
         }
+        if (amount != null && amount.getAmount() == null) {
+            product.setDiscount(null);
+            product.setDiscountAvailable(false);
+        }
+
         calcFinalUnitPrice(product);
         return productRepository.save(product);
     }
@@ -147,10 +148,10 @@ public class ProductServiceImpl implements ProductService {
         if (!product.getDiscountAvailable()){
             product.setFinalUnitPrice(product.getUnitPrice());
         } else {
-            var bigDecimalValueOfDiscount = BigDecimal.valueOf(product.getDiscount())
-                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_EVEN);
+            double doubleDiscount = product.getDiscount() / 100D;
+            var bigDecimalValueOfDiscount = BigDecimal.valueOf(doubleDiscount);
             product.setFinalUnitPrice(product.getUnitPrice().subtract(product.getUnitPrice()
-                            .multiply(bigDecimalValueOfDiscount)));
+                            .multiply(bigDecimalValueOfDiscount).setScale(2, RoundingMode.HALF_UP)));
         }
     }
 }

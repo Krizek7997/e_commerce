@@ -42,8 +42,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deleteShoppingCart(Long shoppingCartId) throws NotFoundException {
+    public void deleteShoppingCart(Long shoppingCartId) throws NotFoundException, IllegalOperationException {
         ShoppingCart shoppingCart = getShoppingCartById(shoppingCartId);
+        if (shoppingCart.getProducts() != null && !shoppingCart.getProducts().isEmpty()) {
+            for (var entry : shoppingCart.getProducts()) {
+                var productIdRequest = new ProductIdRequest();
+                productIdRequest.setProductId(entry.getProduct().getId());
+                deleteProductFromShoppingCart(shoppingCartId, productIdRequest);
+            }
+        }
         shoppingCartRepository.delete(shoppingCart);
     }
 
