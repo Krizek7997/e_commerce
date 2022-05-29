@@ -143,7 +143,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
-    // TODO: Toto nejde...
     private void calcFinalUnitPrice(Product product) {
         if (!product.getDiscountAvailable()){
             product.setFinalUnitPrice(product.getUnitPrice());

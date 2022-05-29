@@ -36,7 +36,7 @@ public class OrderController {
         return new ResponseEntity<>(new OrderResponse(orderService.getOrderById(id)), HttpStatus.OK);
     }
 
-    @PostMapping("/{cartId}/create")
+    @PostMapping("/create/{cartId}")
     public ResponseEntity<OrderResponse> addOrder(@PathVariable("cartId") Long cartId,
                                                   @RequestBody CustomerRequest customerRequest)
             throws NotFoundException, IllegalOperationException {

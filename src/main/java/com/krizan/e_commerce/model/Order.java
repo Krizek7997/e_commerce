@@ -4,11 +4,12 @@ import com.krizan.e_commerce.utils.OrderStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -26,6 +27,8 @@ public class Order {
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime dateCreated;
     private Integer numberOfProducts;
     private BigDecimal totalOrderPrice;
@@ -35,8 +38,6 @@ public class Order {
     public Order(ShoppingCart shoppingCart, Customer customer) {
         this.customer = customer;
         this.shoppingCart = shoppingCart;
-        this.dateCreated = LocalDateTime.parse(LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         this.numberOfProducts = calcNumberOfProducts();
         this.totalOrderPrice = calcTotalOrderPrice();
         this.status = OrderStatus.WAITING;

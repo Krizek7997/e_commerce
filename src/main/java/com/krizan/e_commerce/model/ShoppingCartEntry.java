@@ -16,14 +16,11 @@ public class ShoppingCartEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
-
     @ManyToOne
     private Product product;
-
     private Integer amount;
 
     public ShoppingCartEntry(Product product, Integer amount, ShoppingCart shoppingCart) {
