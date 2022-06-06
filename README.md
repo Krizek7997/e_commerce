@@ -1,6 +1,11 @@
 # E-Commerce
-Monolithic e-commerce application that lets you manage clothing products,
-vendors, customers, shopping cart and make orders.
+Monolithic Spring Boot e-commerce application that lets you manage clothing products,
+vendors, customers, shopping carts and make orders.
 
 ## Used technologies
-Java, Spring Boot, Spring Data JPA, MySQL
+- Java 11
+- Spring Boot
+- Spring Data JPA
+- MySQL
+- Docker
+- Docker Compose

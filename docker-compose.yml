@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  mysql_db:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: e_commerce
+      MYSQL_USER: e_commerce_admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: Heslo123
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql_db
+    command: sh -c './wait-for mysql_db:3306 -- npm start'
