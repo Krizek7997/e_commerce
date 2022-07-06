@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11-jre-slim-buster
 VOLUME /app
 ADD /target/e_commerce-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
