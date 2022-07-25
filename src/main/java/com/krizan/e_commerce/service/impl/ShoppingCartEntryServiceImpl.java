@@ -8,30 +8,23 @@ import com.krizan.e_commerce.model.ShoppingCartEntry;
 import com.krizan.e_commerce.repository.ShoppingCartEntryRepository;
 import com.krizan.e_commerce.service.api.ProductService;
 import com.krizan.e_commerce.service.api.ShoppingCartEntryService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ShoppingCartEntryServiceImpl implements ShoppingCartEntryService {
 
     private final ShoppingCartEntryRepository shoppingCartEntryRepository;
     private final ProductService productService;
 
-    public ShoppingCartEntryServiceImpl(ShoppingCartEntryRepository shoppingCartEntryRepository, ProductService productService) {
-        this.shoppingCartEntryRepository = shoppingCartEntryRepository;
-        this.productService = productService;
+    @Override
+    public ShoppingCartEntry getShoppingCartEntryById(Long id) {
+        return shoppingCartEntryRepository.findShoppingCartEntryById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public ShoppingCartEntry getShoppingCartEntryById(Long id) throws NotFoundException {
-        ShoppingCartEntry shoppingCartEntry = shoppingCartEntryRepository.getShoppingCartEntryById(id);
-        if (shoppingCartEntry == null) {
-            throw new NotFoundException();
-        }
-        return shoppingCartEntryRepository.save(shoppingCartEntry);
-    }
-
-    @Override
-    public ShoppingCartEntry addShoppingCartEntry(ShoppingCartEntryRequest request, ShoppingCart shoppingCart) throws NotFoundException {
+    public ShoppingCartEntry addShoppingCartEntry(ShoppingCartEntryRequest request, ShoppingCart shoppingCart) {
         Product product = productService.getProductById(request.getProductId());
         Integer amount = request.getQuantity();
         ShoppingCartEntry shoppingCartEntry = new ShoppingCartEntry(product, amount, shoppingCart);
@@ -39,7 +32,7 @@ public class ShoppingCartEntryServiceImpl implements ShoppingCartEntryService {
     }
 
     @Override
-    public void deleteShoppingCartEntry(Long id) throws NotFoundException {
+    public void deleteShoppingCartEntry(Long id) {
         ShoppingCartEntry shoppingCartEntry = getShoppingCartEntryById(id);
         shoppingCartEntryRepository.delete(shoppingCartEntry);
     }

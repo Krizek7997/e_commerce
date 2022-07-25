@@ -12,6 +12,7 @@ import com.krizan.e_commerce.service.api.CategoryService;
 import com.krizan.e_commerce.service.api.ProductService;
 import com.krizan.e_commerce.service.api.VendorService;
 import com.krizan.e_commerce.utils.Amount;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,20 +20,15 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final VendorService vendorService;
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, VendorService vendorService) {
-        this.productRepository = productRepository;
-        this.categoryService = categoryService;
-        this.vendorService = vendorService;
-    }
-
     @Override
-    public Product addProduct(ProductRequest request) throws NotFoundException {
+    public Product addProduct(ProductRequest request) {
         Category category = categoryService.getCategoryById(request.getCategory());
         Vendor vendor = vendorService.getVendorById(request.getVendor());
         Product product = new Product(request, category, vendor);
@@ -48,13 +44,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long productId) throws NotFoundException {
+    public void deleteProduct(Long productId) {
         Product product = getProductById(productId);
         productRepository.delete(product);
     }
 
     @Override
-    public Product updateProduct(Long productId, ProductUpdateRequest request) throws NotFoundException {
+    public Product updateProduct(Long productId, ProductUpdateRequest request) {
         Product product = getProductById(productId);
 
         if (request.getGender() != null) {
@@ -90,16 +86,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long productId) throws NotFoundException {
-        Product product = productRepository.findProductById(productId);
-        if (product == null) {
-            throw new NotFoundException();
-        }
-        return product;
+    public Product getProductById(Long productId) {
+        return productRepository.findProductById(productId).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public Product addProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
+    public Product addProductQuantity(Long productId, Amount amount) {
         Product product = getProductById(productId);
         if (amount != null && amount.getAmount() != null) {
             if (amount.getAmount() < 0) {
@@ -111,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product removeProductQuantity(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
+    public Product removeProductQuantity(Long productId, Amount amount) {
         Product product = getProductById(productId);
         if (amount != null && amount.getAmount() != null) {
             if (product.getQuantity() - amount.getAmount() < 0) {
@@ -123,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product setDiscount(Long productId, Amount amount) throws NotFoundException, IllegalOperationException {
+    public Product setDiscount(Long productId, Amount amount) {
         Product product = getProductById(productId);
         if (amount != null && amount.getAmount() != null) {
             if (amount.getAmount() < 1 || amount.getAmount() > 100) {

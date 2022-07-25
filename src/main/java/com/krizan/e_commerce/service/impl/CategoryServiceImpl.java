@@ -6,19 +6,16 @@ import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.repository.CategoryRepository;
 import com.krizan.e_commerce.service.api.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
 
     @Override
     public Category addCategory(CategoryRequest request) {
@@ -26,13 +23,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long categoryId) throws NotFoundException {
+    public void deleteCategory(Long categoryId) {
         Category category = getCategoryById(categoryId);
         categoryRepository.delete(category);
     }
 
     @Override
-    public Category updateCategory(Long categoryId, CategoryUpdateRequest request) throws NotFoundException {
+    public Category updateCategory(Long categoryId, CategoryUpdateRequest request) {
         Category category = getCategoryById(categoryId);
         if (request.getName() != null) {
             category.setName(request.getName());
@@ -46,11 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long categoryId) throws NotFoundException {
-        Category category = categoryRepository.findCategoryById(categoryId);
-        if (category == null) {
-            throw new NotFoundException();
-        }
-        return category;
+    public Category getCategoryById(Long categoryId) {
+        return categoryRepository.findCategoryById(categoryId).orElseThrow(NotFoundException::new);
     }
 }

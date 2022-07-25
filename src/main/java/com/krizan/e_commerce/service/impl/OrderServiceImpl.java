@@ -12,22 +12,18 @@ import com.krizan.e_commerce.service.api.CustomerService;
 import com.krizan.e_commerce.service.api.OrderService;
 import com.krizan.e_commerce.service.api.ShoppingCartService;
 import com.krizan.e_commerce.utils.OrderStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ShoppingCartService shoppingCartService;
     private final CustomerService customerService;
-
-    public OrderServiceImpl(OrderRepository orderRepository, ShoppingCartService shoppingCartService, CustomerService customerService) {
-        this.orderRepository = orderRepository;
-        this.shoppingCartService = shoppingCartService;
-        this.customerService = customerService;
-    }
 
     @Override
     public List<Order> getAllOrders() {
@@ -35,16 +31,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(Long id) throws NotFoundException {
-        Order order = orderRepository.getOrderById(id);
-        if (order == null) {
-            throw new NotFoundException();
-        }
-        return order;
+    public Order getOrderById(Long id) {
+        return orderRepository.findOrderById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public Order addOrder(Long shoppingCartId, CustomerRequest customerRequest) throws NotFoundException, IllegalOperationException {
+    public Order addOrder(Long shoppingCartId, CustomerRequest customerRequest) {
         ShoppingCart shoppingCart = shoppingCartService.getShoppingCartById(shoppingCartId);
         if (shoppingCart.getProducts().isEmpty()) {
             throw new IllegalOperationException();
@@ -65,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void cancelOrder(Long id) throws NotFoundException {
+    public void cancelOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(OrderStatus.CANCELLED);
         var cartEntries = order.getShoppingCart().getProducts();
@@ -76,14 +68,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void payForOrder(Long id) throws NotFoundException {
+    public void payForOrder(Long id) {
         Order order = getOrderById(id);
         order.setStatus(OrderStatus.CONFIRMED);
         orderRepository.save(order);
     }
 
     @Override
-    public void updateOrderStatus(Long id, OrderStatusRequest request) throws NotFoundException, IllegalOperationException {
+    public void updateOrderStatus(Long id, OrderStatusRequest request) {
         Order order = getOrderById(id);
         OrderStatus newStatus = null;
         for (var status: OrderStatus.values()) {

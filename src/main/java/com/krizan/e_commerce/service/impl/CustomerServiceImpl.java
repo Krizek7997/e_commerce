@@ -6,18 +6,16 @@ import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Customer;
 import com.krizan.e_commerce.repository.CustomerRepository;
 import com.krizan.e_commerce.service.api.CustomerService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public Customer addCustomer(CustomerRequest request) {
@@ -25,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Long customerId, CustomerUpdateRequest request) throws NotFoundException {
+    public Customer updateCustomer(Long customerId, CustomerUpdateRequest request) {
         Customer customer = getCustomerById(customerId);
 
         if (request.getFirstName() != null) {
@@ -56,16 +54,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(Long customerId) throws NotFoundException {
-        Customer customer = customerRepository.findCustomerById(customerId);
-        if (customer == null) {
-            throw new NotFoundException();
-        }
-        return customer;
+    public Customer getCustomerById(Long customerId) {
+        return customerRepository.findCustomerById(customerId).orElseThrow(NotFoundException::new);
     }
 
     @Override
     public Customer getCustomerByEmail(String email) {
-        return customerRepository.findCustomerByEmail(email);
+        return customerRepository.findCustomerByEmail(email).orElseThrow(NotFoundException::new);
     }
 }

@@ -1,4 +1,4 @@
 package com.krizan.e_commerce.exception;
 
-public class IllegalOperationException extends Exception {
+public class IllegalOperationException extends RuntimeException {
 }

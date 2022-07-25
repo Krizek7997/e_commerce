@@ -6,18 +6,16 @@ import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Vendor;
 import com.krizan.e_commerce.repository.VendorRepository;
 import com.krizan.e_commerce.service.api.VendorService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class VendorServiceImpl implements VendorService {
 
     private final VendorRepository vendorRepository;
-
-    public VendorServiceImpl(VendorRepository vendorRepository) {
-        this.vendorRepository = vendorRepository;
-    }
 
     @Override
     public Vendor addVendor(VendorRequest request) {
@@ -25,13 +23,13 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public void deleteVendor(Long vendorId) throws NotFoundException {
+    public void deleteVendor(Long vendorId) {
         Vendor vendor = getVendorById(vendorId);
         vendorRepository.delete(vendor);
     }
 
     @Override
-    public Vendor updateVendor(Long vendorId, VendorUpdateRequest request) throws NotFoundException {
+    public Vendor updateVendor(Long vendorId, VendorUpdateRequest request) {
         Vendor vendor = getVendorById(vendorId);
 
         if (request.getName() != null) {
@@ -65,11 +63,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Vendor getVendorById(Long vendorId) throws NotFoundException {
-        Vendor vendor = vendorRepository.findVendorById(vendorId);
-        if (vendor == null) {
-            throw new NotFoundException();
-        }
-        return vendor;
+    public Vendor getVendorById(Long vendorId) {
+        return vendorRepository.findVendorById(vendorId).orElseThrow(NotFoundException::new);
     }
 }
