@@ -1,9 +1,8 @@
-package com.krizan.e_commerce.dto.updateRequest;
+package com.krizan.e_commerce.dto.request.updateRequest;
 
 import com.krizan.e_commerce.utils.Gender;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 
 @Getter

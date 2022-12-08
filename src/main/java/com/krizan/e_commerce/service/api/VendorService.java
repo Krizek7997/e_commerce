@@ -1,9 +1,8 @@
 package com.krizan.e_commerce.service.api;
 
 import com.krizan.e_commerce.dto.request.VendorRequest;
-import com.krizan.e_commerce.dto.updateRequest.VendorUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.VendorUpdateRequest;
 import com.krizan.e_commerce.model.Vendor;
-
 import java.util.List;
 
 public interface VendorService {

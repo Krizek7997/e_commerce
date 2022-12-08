@@ -14,7 +14,6 @@ import com.krizan.e_commerce.service.api.ShoppingCartService;
 import com.krizan.e_commerce.utils.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -84,7 +83,9 @@ public class OrderServiceImpl implements OrderService {
                 break;
             }
         }
-        if (newStatus == null) throw new IllegalOperationException();
+        if (newStatus == null) {
+            throw new IllegalOperationException();
+        }
         order.setStatus(newStatus);
         orderRepository.save(order);
     }

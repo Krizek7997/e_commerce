@@ -20,11 +20,15 @@ public class ShoppingCartEntryServiceImpl implements ShoppingCartEntryService {
 
     @Override
     public ShoppingCartEntry getShoppingCartEntryById(Long id) {
-        return shoppingCartEntryRepository.findShoppingCartEntryById(id).orElseThrow(NotFoundException::new);
+        return shoppingCartEntryRepository.findShoppingCartEntryById(id)
+            .orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public ShoppingCartEntry addShoppingCartEntry(ShoppingCartEntryRequest request, ShoppingCart shoppingCart) {
+    public ShoppingCartEntry addShoppingCartEntry(
+        ShoppingCartEntryRequest request,
+        ShoppingCart shoppingCart
+    ) {
         Product product = productService.getProductById(request.getProductId());
         Integer amount = request.getQuantity();
         ShoppingCartEntry shoppingCartEntry = new ShoppingCartEntry(product, amount, shoppingCart);

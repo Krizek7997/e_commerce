@@ -1,7 +1,7 @@
 package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.dto.request.ProductRequest;
-import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.ProductUpdateRequest;
 import com.krizan.e_commerce.exception.IllegalOperationException;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Category;
@@ -14,7 +14,6 @@ import com.krizan.e_commerce.service.api.VendorService;
 import com.krizan.e_commerce.utils.Amount;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -72,7 +71,8 @@ public class ProductServiceImpl implements ProductService {
             product.setSize(request.getSize());
         }
         if (request.getUnitPrice() != null
-                && request.getUnitPrice().compareTo(BigDecimal.ZERO) > 0) {
+            && request.getUnitPrice().compareTo(BigDecimal.ZERO) > 0
+        ) {
             product.setUnitPrice(request.getUnitPrice());
             calcFinalUnitPrice(product);
         }
@@ -121,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
             if (amount.getAmount() < 1 || amount.getAmount() > 100) {
                 throw new IllegalOperationException();
             }
-            if (amount.getAmount() > 0 && amount.getAmount() < 100) {
+            if (amount.getAmount() < 100) {
                 product.setDiscount(amount.getAmount());
                 product.setDiscountAvailable(true);
             }
@@ -141,8 +141,12 @@ public class ProductServiceImpl implements ProductService {
         } else {
             double doubleDiscount = product.getDiscount() / 100D;
             var bigDecimalValueOfDiscount = BigDecimal.valueOf(doubleDiscount);
-            product.setFinalUnitPrice(product.getUnitPrice().subtract(product.getUnitPrice()
-                            .multiply(bigDecimalValueOfDiscount).setScale(2, RoundingMode.HALF_UP)));
+            product.setFinalUnitPrice(
+                product.getUnitPrice().subtract(
+                    product.getUnitPrice().multiply(
+                        bigDecimalValueOfDiscount).setScale(2, RoundingMode.HALF_UP)
+                )
+            );
         }
     }
 }

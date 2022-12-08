@@ -2,7 +2,6 @@ package com.krizan.e_commerce.dto.response;
 
 import com.krizan.e_commerce.model.Vendor;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 

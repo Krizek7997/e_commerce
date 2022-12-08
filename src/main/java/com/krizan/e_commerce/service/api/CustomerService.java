@@ -1,9 +1,8 @@
 package com.krizan.e_commerce.service.api;
 
 import com.krizan.e_commerce.dto.request.CustomerRequest;
-import com.krizan.e_commerce.dto.updateRequest.CustomerUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.CustomerUpdateRequest;
 import com.krizan.e_commerce.model.Customer;
-
 import java.util.List;
 
 public interface CustomerService {

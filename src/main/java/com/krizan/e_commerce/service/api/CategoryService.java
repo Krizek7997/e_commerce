@@ -1,9 +1,8 @@
 package com.krizan.e_commerce.service.api;
 
 import com.krizan.e_commerce.dto.request.CategoryRequest;
-import com.krizan.e_commerce.dto.updateRequest.CategoryUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.CategoryUpdateRequest;
 import com.krizan.e_commerce.model.Category;
-
 import java.util.List;
 
 public interface CategoryService {

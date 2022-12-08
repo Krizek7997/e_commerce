@@ -3,7 +3,7 @@ Monolithic Spring Boot e-commerce application that lets you manage clothing prod
 vendors, customers, shopping carts and make orders.
 
 ## Used technologies
-- Java 11
+- Java 15
 - Spring Boot
 - Spring Data JPA
 - MySQL

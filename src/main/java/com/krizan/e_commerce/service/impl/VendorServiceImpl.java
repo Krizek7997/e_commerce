@@ -1,14 +1,13 @@
 package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.dto.request.VendorRequest;
-import com.krizan.e_commerce.dto.updateRequest.VendorUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.VendorUpdateRequest;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Vendor;
 import com.krizan.e_commerce.repository.VendorRepository;
 import com.krizan.e_commerce.service.api.VendorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

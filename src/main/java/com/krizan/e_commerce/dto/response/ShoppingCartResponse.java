@@ -2,7 +2,6 @@ package com.krizan.e_commerce.dto.response;
 
 import com.krizan.e_commerce.model.ShoppingCart;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +15,11 @@ public class ShoppingCartResponse {
         this.shoppingCartId = shoppingCart.getId();
         this.products = new ArrayList<>();
         if (shoppingCart.getProducts() != null) {
-            shoppingCart.getProducts()
-                    .forEach(shoppingCartEntry -> products.add(new ShoppingCartEntryResponse(shoppingCartEntry)));
+            shoppingCart.getProducts().forEach(
+                shoppingCartEntry -> products.add(
+                    new ShoppingCartEntryResponse(shoppingCartEntry)
+                )
+            );
         }
     }
 }

@@ -24,7 +24,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getShoppingCartById(Long shoppingCartId) {
-        return shoppingCartRepository.findShoppingCartById(shoppingCartId).orElseThrow(NotFoundException::new);
+        return shoppingCartRepository.findShoppingCartById(shoppingCartId)
+            .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -47,13 +48,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart addProductToShoppingCart(Long shoppingCartId, ShoppingCartEntryRequest request) {
+    public ShoppingCart addProductToShoppingCart(
+        Long shoppingCartId,
+        ShoppingCartEntryRequest request
+    ) {
         ShoppingCart shoppingCart = getShoppingCartById(shoppingCartId);
         Product product = productService.getProductById(request.getProductId());
         if (product.getQuantity() - request.getQuantity() < 0) {
             throw new IllegalOperationException();
         }
-        var shoppingCartEntry = shoppingCartEntryService.addShoppingCartEntry(request, shoppingCart);
+        var shoppingCartEntry =
+            shoppingCartEntryService.addShoppingCartEntry(request, shoppingCart);
         shoppingCart.getProducts().add(shoppingCartEntry);
         productService.removeProductQuantity(product.getId(), new Amount(request.getQuantity()));
         return shoppingCartRepository.save(shoppingCart);

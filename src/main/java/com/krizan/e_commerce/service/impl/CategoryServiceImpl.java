@@ -1,7 +1,7 @@
 package com.krizan.e_commerce.service.impl;
 
 import com.krizan.e_commerce.dto.request.CategoryRequest;
-import com.krizan.e_commerce.dto.updateRequest.CategoryUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.CategoryUpdateRequest;
 import com.krizan.e_commerce.exception.NotFoundException;
 import com.krizan.e_commerce.model.Category;
 import com.krizan.e_commerce.repository.CategoryRepository;

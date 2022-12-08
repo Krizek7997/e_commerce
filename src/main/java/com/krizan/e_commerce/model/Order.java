@@ -1,13 +1,19 @@
 package com.krizan.e_commerce.model;
 
 import com.krizan.e_commerce.utils.OrderStatus;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -47,8 +53,10 @@ public class Order {
     private BigDecimal calcTotalOrderPrice() {
         var total = BigDecimal.ZERO;
         for (var entry: shoppingCart.getProducts()) {
-            total = total.add(BigDecimal.valueOf(entry.getAmount())
-                    .multiply(entry.getProduct().getFinalUnitPrice()));
+            total = total.add(
+                BigDecimal.valueOf(entry.getAmount())
+                .multiply(entry.getProduct().getFinalUnitPrice())
+            );
         }
         return total;
     }

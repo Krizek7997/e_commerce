@@ -1,10 +1,9 @@
 package com.krizan.e_commerce.service.api;
 
 import com.krizan.e_commerce.dto.request.ProductRequest;
-import com.krizan.e_commerce.dto.updateRequest.ProductUpdateRequest;
+import com.krizan.e_commerce.dto.request.updateRequest.ProductUpdateRequest;
 import com.krizan.e_commerce.model.Product;
 import com.krizan.e_commerce.utils.Amount;
-
 import java.util.List;
 
 public interface ProductService {

@@ -3,7 +3,6 @@ package com.krizan.e_commerce.dto.response;
 import com.krizan.e_commerce.model.Product;
 import com.krizan.e_commerce.utils.Gender;
 import lombok.Getter;
-
 import java.math.BigDecimal;
 
 @Getter
